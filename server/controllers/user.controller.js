@@ -1,6 +1,5 @@
 const User = require('../models/user.model'),
-    passport = require('passport'),
-    mongoose = require('mongoose');
+    passport = require('passport');
 
 module.exports = {
 
