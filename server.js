@@ -54,6 +54,10 @@ app.use(require('express-session')({
 
 //adding routes
 
+const deviceRouter = require('./server/routes/device.router');
+
+app.use('/api/v1/device', deviceRouter);
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
