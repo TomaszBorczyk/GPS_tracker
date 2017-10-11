@@ -29,7 +29,7 @@ module.exports = {
         Device
         .findOne( {device_id: device_id})
         .then( device => {
-            if (!device) throw 'Device with that id already exists';
+            if (device !== null) throw 'Device with that id already exists';
             else { return device; }
         })
         .then( device => Device.create({device_id: device_id}))
