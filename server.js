@@ -68,5 +68,6 @@ if(!module.parent){
     app.listen(port);
 }
 console.log('App runs in develop mode');
+console.log('Listening on port ' + port);
 
 module.exports = app;
