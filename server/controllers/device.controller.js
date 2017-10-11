@@ -18,7 +18,7 @@ module.exports = {
             { device_id: device_id},
             { $push: { gps_data: newLocation }},
             { new: true })
-        .then( device => res.send({success: true}))
+        .then( () => res.send({success: true}))
         .catch( err => res.send({success: false, err: err}))
 
     },
@@ -32,7 +32,7 @@ module.exports = {
             if (device !== null) throw 'Device with that id already exists';
             else { return device; }
         })
-        .then( device => Device.create({device_id: device_id}))
+        .then( () => Device.create({device_id: device_id}))
         .then( device => res.send({success: true, device: device}))
         .catch( err => res.send({success: false, err: err}));
 

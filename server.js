@@ -4,12 +4,7 @@ const express = require('express'),
     path = require('path'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
-    cookieParser = require('cookie-parser'),
-    passport = require('passport'),
-    localStrategy = require('passport-local').Strategy,
-    FacebookStrategy = require('passport-facebook').Strategy,
-    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
+    cookieParser = require('cookie-parser');
 
 const port = process.env.PORT || 4567;
 const db = process.env.DB_REMOTE || config.db;
@@ -68,7 +63,5 @@ mongoose.connect(db);
 if(!module.parent){
     app.listen(port);
 }
-console.log('App runs in develop mode');
-console.log('Listening on port ' + port);
 
 module.exports = app;

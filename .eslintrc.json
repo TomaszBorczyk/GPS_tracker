@@ -8,9 +8,10 @@
         "sourceType": "module"
     },
     "globals": {
+        "__dirname": false,
         "module": false,
-        "require": false,
-        "__dirname": false
+        "process": false,
+        "require": false
     },
     "rules": {
         "accessor-pairs": "error",
@@ -153,7 +154,7 @@
         "no-param-reassign": "error",
         "no-path-concat": "error",
         "no-plusplus": "error",
-        "no-process-env": 1,
+        "no-process-env": 0,
         "no-process-exit": "error",
         "no-proto": "error",
         "no-prototype-builtins": "error",
