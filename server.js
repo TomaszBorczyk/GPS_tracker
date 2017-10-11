@@ -12,6 +12,7 @@ const express = require('express'),
 
 
 const port = process.env.PORT || 4567;
+const db = process.env.DB_REMOTE || config.db;
 let app = express();
 
 //static folder
@@ -63,7 +64,7 @@ app.get('*', (req, res) => {
 });
 
 //connecting to database and listening on port
-mongoose.connect(config.db);
+mongoose.connect(db);
 if(!module.parent){
     app.listen(port);
 }
