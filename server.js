@@ -6,12 +6,12 @@ const API = require('./server/config/api.config'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose');
 
-const port = process.env.PORT || 4567;
+const port = process.env.PORT || config.port;
 const db = process.env.DB_REMOTE || config.db;
-let app = express();
+const app = express();
+const deviceRouter = require('./server/routes/device.router');
 
 app.use(express.static(path.join(__dirname, 'dist')));
-
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -21,10 +21,7 @@ app.use(require('express-session')({
     saveUninitialized: false
 }));
 
-const deviceRouter = require('./server/routes/device.router');
-
 app.use(API.CORE + API.DEVICE, deviceRouter);
-
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'dist/index.html')));
 
 mongoose.connect(db);
