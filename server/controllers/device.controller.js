@@ -9,18 +9,14 @@ module.exports = {
         const newLocation = {
             lat: body.lat,
             lon: body.lon,
-            lat_dir: body.lat_dir,
-            lon_dir: body.lon_dir
         };
 
         Device
         .findOneAndUpdate(
             { device_id: device_id},
-            { $push: { gps_data: newLocation }},
-            { new: true })
+            { $push: { gps_data: newLocation }})
         .then( () => res.send({success: true}))
         .catch( err => res.send({success: false, err: err}))
-
     },
 
     registerDevice: function(req, res){
@@ -35,6 +31,5 @@ module.exports = {
         .then( () => Device.create({device_id: device_id}))
         .then( device => res.send({success: true, device: device}))
         .catch( err => res.send({success: false, err: err}));
-
     }
 }

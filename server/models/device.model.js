@@ -8,8 +8,7 @@ let DeviceSchema = new Schema({
         {
             lat: Number,
             lon: Number,
-            lat_dir: String,
-            lon_dir: String,
+            msg: String,
             date: { type: Date, default: Date.now },
         }
     ],
