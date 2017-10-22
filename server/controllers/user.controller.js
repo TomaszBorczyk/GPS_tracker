@@ -8,30 +8,34 @@ module.exports = {
     //=======================
 
     postRegister: function (req, res, next) {
+        const { email, password } = req.body;
+
         User.register(
-            new User({ username: req.body.username, email: req.body.email }),
-            req.body.password,
+            new User({ email: email }),
+            password,
             function (err, user) {
                 if (user) { passport.authenticate('local')(req, res, function () { res.send({ success: true }) }) }
                 if (err) next(err);
             })
-        // .then( user =>  passport.authenticate('local')(req, res, function(){ res.send({success: true})}) )
-        // .catch( err => next(err))
     },
 
-    login: function (req, res) {
+    postLogin: function (req, res) {
         console.log('auth:', req.isAuthenticated());
-        console.log('LOGIN', req.user);
         res.send(
             {
                 id: req.user._id,
-                username: req.user.username,
+                email: req.user.email,
             }
         );
     },
 
+    logout: function(req, res){
+        req.logout();
+        res.redirect('/');
+    },
+
     changePassword: function (req, res) {
-        let newPass = req.body.new_password;
+        const newPass = req.body.newPass;
 
         User.findOne({ _id: req.user._id })
             .then(user => {
@@ -41,7 +45,7 @@ module.exports = {
                 }
                 else { return user.setPassword(newPass) }
             })
-            .then(() => user.save())
+            .then(user => user.save())
             .then(() => res.send({ success: true }))
             .catch(err => res.send({ success: false, err: err }))
     },

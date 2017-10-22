@@ -3,7 +3,6 @@ const passportLocalMongoose = require('passport-local-mongoose'),
     Schema = mongoose.Schema;
 
 let UserSchema = new Schema({
-    username: String,
     email: String,
     devices: [
         {
@@ -11,19 +10,10 @@ let UserSchema = new Schema({
             ref: 'Device'
         }
     ],
-
-    facebook: {
-        id: String,
-    },
-
-    google: {
-        id: String,
-    },
-
     date_created: { type: Date, default: Date.now },
 });
 
-UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 
 const UserModel = mongoose.model('User', UserSchema);
 
