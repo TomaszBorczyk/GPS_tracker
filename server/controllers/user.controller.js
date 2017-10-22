@@ -14,13 +14,16 @@ module.exports = {
             new User({ email: email }),
             password,
             function (err, user) {
-                if (user) { passport.authenticate('local')(req, res, function () { res.send({ success: true }) }) }
+                if (user) {
+                    passport.authenticate('local')(req, res, function () {
+                        res.send({ success: true, user: { id: user._id, email: user.email, devices: user.devices }})
+                        })
+                }
                 if (err) next(err);
             })
     },
 
     postLogin: function (req, res) {
-        console.log('auth:', req.isAuthenticated());
         res.send(
             {
                 id: req.user._id,
