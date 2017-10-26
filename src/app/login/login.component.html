@@ -1,9 +1,7 @@
 <div class="login-wrapper">
   <form class="login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <label class="title">
-          <h3 class="welcome">Welcome to</h3>
-          Together to work
-          <h5 class="hint">Use your email to sign in or create account now</h5>
+          Login to your account
       </label>
       <div class="login-group">
           <input class="username" type="text" id="username" placeholder="Username" formControlName="username">
@@ -12,7 +10,9 @@
               Invalid user name or password
           </div>
           <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">Login</button>
-          <a routerLink="/register" class="signup">Register with email</a>
+          <span>
+              <a routerLink="/register" class="signup">Register with email</a>
+          </span>
       </div>
   </form>
 </div>

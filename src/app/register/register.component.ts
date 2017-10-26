@@ -62,18 +62,18 @@ export class RegisterComponent implements OnInit {
   buildForm(): void {
   this.registerForm = this.fb.group({
     // 'email': [this.user.email, [
-    'email': ['mike@a.com', [
+    'email': [, [
         Validators.required,
         Validators.email,
       ]
     ],
     // 'password': [this.user.password, [
-    'password': ['pass123', [
+    'password': [, [
         Validators.required,
         Validators.minLength(5)
       ]
     ],
-    'rePassword': ['pass123', [
+    'rePassword': [, [
       Validators.required,
       ]
     ]
