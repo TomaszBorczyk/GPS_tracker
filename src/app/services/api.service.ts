@@ -16,23 +16,19 @@ export class ApiService {
 
 
 
-  public register(email: string, password: string): Promise<void> {
+  public register(email: string, password: string): Promise<boolean> {
     const body = {email: email, password: password };
 
     return this.postHTTP('/user/register', body)
       .then(res => {
-        const resUser: User = res.json().user;
-        console.log(resUser);
+        const resJson = res.json();
+        if (resJson.success === true) {
+          return true;
+        } else {
+          throw(resJson.error.message);
+        }
       });
 
-    // return this
-    //   .http
-    //   .post(this.apiServer + '/user/register', body)
-    //   .toPromise()
-    //   .then(res => {
-    //     const resUser: User = res.json().user;
-    //     // this.router.navigate(['']);
-    //   });
   }
 
   public login(email: string, password: string): Promise<void> {
@@ -43,9 +39,10 @@ export class ApiService {
       .toPromise()
       .then(res => {
         const resUser: User = res.json().user;
-        // this.router.navigate(['']);
+        localStorage.setItem('user', JSON.stringify(resUser));
+        this.router.navigate(['/dashboard']);
       });
-  }
+    }
 
   private postHTTP(route: string, body: Object): Promise<any> {
     return this

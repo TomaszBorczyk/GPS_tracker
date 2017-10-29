@@ -84,6 +84,7 @@ export class LoginComponent implements OnInit {
        return;
     }
     const form = this.loginForm;
+    this.loginFailed = false;
 
     for (const field of Object.keys(this.formErrors)) {
       this.formErrors[field] = '';

@@ -1,5 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 // import { LocalStorageService } from 'angular-2-local-storage';
 import { User } from '../models/user.model';
 import { ApiService } from '../services/api.service';
@@ -45,6 +46,7 @@ export class RegisterComponent implements OnInit {
     private my_apiService: ApiService,
     // private localStorage: LocalStorageService,
     // private ttw_storageService:StorageService,
+    private router: Router,
     private fb: FormBuilder
   ) {
     // this.user = new User('', '');
@@ -91,7 +93,10 @@ onSubmit() {
   if (this.registerForm.valid) {
     const email = this.registerForm.get('email').value;
     const password = this.registerForm.get('password').value;
-    this.my_apiService.register(email, password);
+    this.my_apiService
+      .register(email, password)
+      .then( success => this.router.navigate(['/login']))
+      .catch( error => alert(error));
   }
 }
 

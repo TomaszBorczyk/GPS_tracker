@@ -7,7 +7,7 @@ module.exports = {
     // AUTHENTICATION & USER
     //=======================
 
-    postRegister: function (req, res, next) {
+    postRegister: function (req, res) {
         const { email, password } = req.body;
 
         User.register(
@@ -16,10 +16,12 @@ module.exports = {
             function (err, user) {
                 if (user) {
                     passport.authenticate('local')(req, res, function () {
-                        res.send({ success: true, user: { id: user._id, email: user.email, devices: user.devices }})
+                        res.send({ success: true })
                         })
                 }
-                if (err) next(err);
+                if (err) {
+                    res.send({ success: false, error: err });
+                }
             })
     },
 
