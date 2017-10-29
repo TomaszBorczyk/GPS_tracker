@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import 'consts/colors';
+html{
+    font-family: 'Open Sans', sans-serif;
+}
+
+body{
+    background-color: $color-main-gray;
+    margin-top: 50px;
+}
+
+input{
+    font-family: 'Open Sans', sans-serif;
+}

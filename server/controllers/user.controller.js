@@ -7,20 +7,25 @@ module.exports = {
     // AUTHENTICATION & USER
     //=======================
 
-    postRegister: function (req, res, next) {
+    postRegister: function (req, res) {
         const { email, password } = req.body;
 
         User.register(
             new User({ email: email }),
             password,
             function (err, user) {
-                if (user) { passport.authenticate('local')(req, res, function () { res.send({ success: true }) }) }
-                if (err) next(err);
+                if (user) {
+                    passport.authenticate('local')(req, res, function () {
+                        res.send({ success: true })
+                        })
+                }
+                if (err) {
+                    res.send({ success: false, error: err });
+                }
             })
     },
 
     postLogin: function (req, res) {
-        console.log('auth:', req.isAuthenticated());
         res.send(
             {
                 id: req.user._id,

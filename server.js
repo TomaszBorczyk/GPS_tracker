@@ -6,7 +6,8 @@ const API = require('./server/config/api.config'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     passport = require('passport'),
-    localStrategy = require('passport-local').Strategy;
+    localStrategy = require('passport-local').Strategy,
+    session = require('express-session');
 
 const User = require('./server/models/user.model');
 const port = process.env.PORT || config.port;
@@ -17,25 +18,18 @@ const userRouter = require('./server/routes/user.router');
 
 
 passport.use(new localStrategy({usernameField: 'email'}, User.authenticate()));
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(require('express-session')({
+app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false
 }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(API.CORE + API.DEVICE, deviceRouter);
