@@ -1,0 +1,98 @@
+@import './../../consts/colors';
+$list-item-margin: 10px;
+$icon-space: 20px;
+$selected-border-size: 4px;
+$aside-top-padding: 20px;
+
+:host {
+    display: flex;
+    flex-direction: row;
+}
+
+aside {
+    background-color: $color-main-blue;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - #{$aside-top-padding});
+    padding-top: $aside-top-padding;
+    position: relative;
+    width: 200px;
+
+    a {
+        background-color: $color-main-blue;
+        box-sizing: border-box;
+        color: #c7c7c7;
+        display: flex;
+        font-size: 14px;
+        padding: 0px 0px 0px $icon-space;
+        text-decoration: none;
+        width: 100%;
+        &:hover{
+            background-color: lighten($color-main-blue, 5%);
+            color: white;
+            transition: background-color 0.3s;
+            transition: color 0.2s;
+        }
+        &.active{
+            background-color: lighten($color-main-blue, 5%);
+            border-left: $selected-border-size #13d4ff solid;           
+            color: white;
+            padding-left: $icon-space - $selected-border-size;            
+        }
+
+        p {
+            font-weight: bold;
+            margin: $list-item-margin 0 $list-item-margin 0;
+        }
+
+        i {
+            font-size: 20px;
+            margin: $list-item-margin 15px $list-item-margin 0;
+        }
+
+    }
+}
+
+.nav-profile {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.button-wrapper {
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 10px 50px 10px;
+}
+
+.logout {
+    width: 100%;
+    background-color: darken($color-main-blue, 5%);
+    border: none;
+    color: #c7c7c7;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    border-radius: 7px;
+    
+    &:hover {
+        background-color: darken($color-main-blue, 10%);
+        color: white;
+        transition: background-color 0.3s;
+        transition: color 0.2s;
+    }
+
+    &:focus {
+        outline: 0;
+    }
+
+    i {
+        font-size: 26px;
+        margin-left: 10px;
+    }
+}
