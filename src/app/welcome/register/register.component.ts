@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
+import { AlertService } from '../alertService/alert.service';
+import { AlertType } from '../AlertType/AlertType';
 
 
 @Component({
@@ -41,33 +43,24 @@ export class RegisterComponent implements OnInit {
   };
 
   constructor(
+    private fb: FormBuilder,
     private my_AuthService: AuthService,
-    // private localStorage: LocalStorageService,
-    // private ttw_storageService:StorageService,
-    private router: Router,
-    private fb: FormBuilder
-  ) {
-    // this.user = new User('', '');
-  }
+    private my_alertService: AlertService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.buildForm();
   }
 
 
-  // getLocalStorageUser(): string {
-  //   return JSON.stringify(this.localStorage.get('user'));
-  // }
-
   buildForm(): void {
   this.registerForm = this.fb.group({
-    // 'email': [this.user.email, [
     'email': [, [
         Validators.required,
         Validators.email,
       ]
     ],
-    // 'password': [this.user.password, [
     'password': [, [
         Validators.required,
         Validators.minLength(5)
@@ -93,8 +86,14 @@ onSubmit() {
     const password = this.registerForm.get('password').value;
     this.my_AuthService
       .register(email, password)
-      .then( success => this.router.navigate(['/login']))
-      .catch( error => alert(error));
+      .then( success => {
+        this.my_alertService.emitAlertType(AlertType.SUCCESS, '');
+        this.router.navigate(['/login']);
+        }
+      )
+      .catch( error => {
+        this.my_alertService.emitAlertType(AlertType.FAILURE, error);
+      });
   }
 }
 

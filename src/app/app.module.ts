@@ -9,6 +9,7 @@ import { DevicesComponent } from './dashboard/devices/devices.component';
 import { MapComponent } from './dashboard/map/map.component';
 import { OptionsComponent } from './dashboard/options/options.component';
 import { AuthService } from './services/auth.service';
+import { AlertService } from './welcome/alertService/alert.service';
 import { LoginComponent } from './welcome/login/login.component';
 import { RegisterComponent } from './welcome/register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -32,6 +33,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     ReactiveFormsModule
   ],
   providers: [
+    AlertService,
     AuthService
   ],
   bootstrap: [AppComponent]
