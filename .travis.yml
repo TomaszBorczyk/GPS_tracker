@@ -17,4 +17,6 @@ deploy:
   app: gps-tracker
   on:
     repo: TomaszBorczyk/GPS_tracker
-    branch: develop
+  branches:
+    only:
+      - master
