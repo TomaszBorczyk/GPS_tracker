@@ -29,7 +29,6 @@ export class AuthService {
           throw(resJson.error.message);
         }
       });
-
   }
 
   public login(email: string, password: string): Promise<void> {
