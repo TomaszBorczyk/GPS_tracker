@@ -6,7 +6,7 @@ import { Config } from '../../config/config';
 import { User } from '../models/user.model';
 
 @Injectable()
-export class ApiService {
+export class AuthService {
   apiServer: string = Config.apiLocal;
 
   constructor(

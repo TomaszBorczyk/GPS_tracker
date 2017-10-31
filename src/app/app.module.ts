@@ -10,7 +10,7 @@ import { MapComponent } from './dashboard/map/map.component';
 import { OptionsComponent } from './dashboard/options/options.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { ApiService } from './services/api.service';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { ApiService } from './services/api.service';
     ReactiveFormsModule
   ],
   providers: [
-    ApiService
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

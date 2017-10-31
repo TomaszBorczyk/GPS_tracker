@@ -2,7 +2,7 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import { LocalStorageService } from 'angular-2-local-storage';
 import { User } from '../models/user.model';
-import { ApiService } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
 // import { StorageService } from  '../services/local-storage.service';
 
 
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(
-      private my_apiService: ApiService,
+      private my_AuthService: AuthService,
       private fb: FormBuilder
     ) {
       this.loginFailed = false;
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
       const username: string = this.loginForm.get('username').value;
       const password: string = this.loginForm.get('password').value;
 
-      this.my_apiService
+      this.my_AuthService
           .login(username, password)
           .catch( err => {
             this.loginFailed = true;
