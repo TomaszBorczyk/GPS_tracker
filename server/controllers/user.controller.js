@@ -36,7 +36,7 @@ module.exports = {
 
     logout: function(req, res){
         req.logout();
-        res.redirect('/');
+        res.send({ success: true});
     },
 
     changePassword: function (req, res) {

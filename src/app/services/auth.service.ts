@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
@@ -15,12 +16,12 @@ export class AuthService {
   ) { }
 
 
-
   public register(email: string, password: string): Promise<boolean> {
     const body = {email: email, password: password };
 
-    return this.postHTTP('/user/register', body)
-      .then(res => {
+    return this
+      .postHTTP('/user/register', body)
+      .then( (res: Response) => {
         const resJson = res.json();
         if (resJson.success === true) {
           return true;
@@ -34,15 +35,25 @@ export class AuthService {
   public login(email: string, password: string): Promise<void> {
     const body = {email: email, password: password };
     return this
-      .http
-      .post(this.apiServer + '/user/login', body)
-      .toPromise()
-      .then(res => {
+      .postHTTP('/user/login', body)
+      .then( (res: Response) => {
         const resUser: User = res.json().user;
         localStorage.setItem('user', JSON.stringify(resUser));
         this.router.navigate(['/dashboard']);
       });
     }
+
+  public logout(): void {
+    localStorage.removeItem('user');
+    this
+      .postHTTP('/user/logout', {})
+      .then( (res: Response) => {
+        if (res.json().success === true) {
+          this.router.navigate(['/login']);
+        }
+      });
+  }
+
 
   private postHTTP(route: string, body: Object): Promise<any> {
     return this
