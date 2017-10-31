@@ -8,9 +8,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DevicesComponent } from './dashboard/devices/devices.component';
 import { MapComponent } from './dashboard/map/map.component';
 import { OptionsComponent } from './dashboard/options/options.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { AuthService } from './services/auth.service';
+import { LoginComponent } from './welcome/login/login.component';
+import { RegisterComponent } from './welcome/register/register.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AuthService } from './services/auth.service';
     DashboardComponent,
     MapComponent,
     DevicesComponent,
-    OptionsComponent
+    OptionsComponent,
+    WelcomeComponent
   ],
   imports: [
     AppRoutingModule,

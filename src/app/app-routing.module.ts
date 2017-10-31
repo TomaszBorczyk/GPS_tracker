@@ -5,8 +5,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DevicesComponent } from './dashboard/devices/devices.component';
 import { MapComponent } from './dashboard/map/map.component';
 import { OptionsComponent } from './dashboard/options/options.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './welcome/login/login.component';
+import { RegisterComponent } from './welcome/register/register.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 @Injectable()
@@ -47,10 +48,15 @@ export class IsLoggedOut implements CanActivate {
           { path: 'options', component: OptionsComponent }
         ]
       },
-      { path: 'login', component: LoginComponent, canActivate: [IsLoggedOut]},
-      { path: 'register', component: RegisterComponent, canActivate: [IsLoggedOut]},
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: '**', redirectTo: 'login', pathMatch: 'full' }
+      { path: 'welcome', component: WelcomeComponent, canActivate: [IsLoggedOut],
+        children: [
+          { path: '', redirectTo: 'login', pathMatch: 'full'},
+          { path: 'login', component: LoginComponent},
+          { path: 'register', component: RegisterComponent},
+        ]
+      },
+      { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+      { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
     ])
   ],
   providers: [IsLoggedIn, IsLoggedOut],
