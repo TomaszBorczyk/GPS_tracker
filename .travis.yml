@@ -14,7 +14,8 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: TA9RVHi6d3O0ZGkeeVSRaV1K6McLnryhhY+7zAlhaVbstwNps2fRiNZ03XVH7+m2grxldP2XOTVhSIK8x+e5W0xfsUxCGuX+rft3F4dpIysRtZjRUF1g16GcWPkrz2ptoYLngJp3nhlTj5nv71yr0XQsMxjsImuKZ29erkV5tTKR5s1plQcwstPffyed0WH3adeVoElyob/Llt8XSUh9v2jjSHpXNEac7CdWcv/vibjEqMfxkkrxisn8b55GDDWt20Ftsw+EmenPyduwfmXyfmUBM/FySYbwJi5ib02evXQbfmRRTJFnKSiVI+eGNlM7FFCuFRb3nqPKmMrGeBAcRtCfyVEy9O/YpHExCaW5XQMXGB8bKyvnza1nxRApOAeDXdsIcqZS+vduJuEy++7MGD1rHwG/HXXbYMfK+Ygt4CrTCj7MCv20aYGwjFeSPaixBwjzvji27zQL41jbf2ksuDrPbylG3jDi+8nWTP9VoCxDLGPPieBbaVnC3LaBTGXZWvauJI91oFz9FTLVxkp1dv6MS/fh2JPVytXGby5/ENIWQ4sf/xXCtvLGad2Q98tv7O0DpPa2nkNveawfTKSAPL6hqCtpQkbHivMSdLAY4Nf9A065CIi7v1IYiHKIRezgOJr4FJHJZU8yoisAI+QiDLpQAanGlUqZTSl0/lbam6o=
-  app: gps-tracker
+  app: 
+    master: gps-tracker
   on:
     repo: TomaszBorczyk/GPS_tracker
   branches:
