@@ -1,9 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-// import { LocalStorageService } from 'angular-2-local-storage';
-import { User } from '../models/user.model';
-import { AuthService } from '../services/auth.service';
-// import { StorageService } from  '../services/local-storage.service';
+import { User } from '../../models/user.model';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
