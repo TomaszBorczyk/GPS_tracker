@@ -1,3 +1,27 @@
+.alert-bar {
+    background-color: #99cc33;
+    color: white;
+    height: 30px;
+    left: 0;
+    padding-top: 5px;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+
+    &.failure {
+        background-color: #cc3300;
+    }
+
+    &.success {
+        background-color: #99cc33;
+    }
+
+    &.none {
+        display: none;
+    }
+}
+
 .router-wrapper {
     margin-top: 200px;
 }
