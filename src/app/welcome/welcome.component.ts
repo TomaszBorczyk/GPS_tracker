@@ -14,7 +14,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   private alertMessage: string;
   private alertType: AlertType;
   private alertSubscription: Subscription;
-  private message: string;
+  private icon: string;
 
   constructor(private my_alerService: AlertService) {
     this.alertType = AlertType.NONE;
@@ -36,5 +36,6 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     const { type, message } = alertInfo;
     this.alertType = type;
     this.alertMessage = type === AlertType.SUCCESS ? consts.alertBar[type] : message;
+    this.icon = type === AlertType.SUCCESS ? 'done' : 'warning';
   }
 }
