@@ -26,17 +26,19 @@ module.exports = {
     },
 
     postLogin: function (req, res) {
-        res.send(
-            {
+        const user =  {
+            user: {
                 id: req.user._id,
                 email: req.user.email,
+                devices: req.user.devices
             }
-        );
+        }
+        res.send(user);
     },
 
     logout: function(req, res){
         req.logout();
-        res.redirect('/');
+        res.send({ success: true});
     },
 
     changePassword: function (req, res) {
