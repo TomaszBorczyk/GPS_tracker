@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 // import { LocalStorageService } from 'angular-2-local-storage';
 import { User } from '../models/user.model';
-import { ApiService } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
 // import { StorageService } from  '../services/local-storage.service';
 
 
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
   };
 
   constructor(
-    private my_apiService: ApiService,
+    private my_AuthService: AuthService,
     // private localStorage: LocalStorageService,
     // private ttw_storageService:StorageService,
     private router: Router,
@@ -93,7 +93,7 @@ onSubmit() {
   if (this.registerForm.valid) {
     const email = this.registerForm.get('email').value;
     const password = this.registerForm.get('password').value;
-    this.my_apiService
+    this.my_AuthService
       .register(email, password)
       .then( success => this.router.navigate(['/login']))
       .catch( error => alert(error));
