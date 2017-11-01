@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'gps-tracker.herokuapp.com/api/v1'
 };

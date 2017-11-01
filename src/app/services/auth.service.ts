@@ -3,7 +3,7 @@ import { Response } from '@angular/http';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
-import { Config } from '../../config/config';
+import { environment } from '../../environments/environment';
 import { User } from '../models/user.model';
 
 @Injectable()
@@ -14,11 +14,7 @@ export class AuthService {
     private http: Http,
     private router: Router
   ) {
-    if (process.env.PRODUCTION) {
-      this.apiServer = Config.apiRemote;
-    } else {
-      this.apiServer = Config.apiLocal;
-    }
+    this.apiServer = environment.apiUrl;
   }
 
 
