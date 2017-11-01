@@ -15,7 +15,8 @@
   "homepage": "https://github.com/TomaszBorczyk/GPS_tracker#readme",
   "scripts": {
     "ng": "ng",
-    "start": "nodemon server.js",
+    "start": "node server",
+    "nodemon": "nodemon server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
