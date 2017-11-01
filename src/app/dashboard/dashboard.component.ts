@@ -10,8 +10,8 @@ import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class DashboardComponent implements OnInit {
-  private items: Array<object>;
-  private user: User;
+  public items: Array<object>;
+  public user: User;
 
   constructor( private my_authService: AuthService) {
     this.items = [
@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
-  private logout(): void {
+  public logout(): void {
     this.my_authService.logout();
   }
 

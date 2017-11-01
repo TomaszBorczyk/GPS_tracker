@@ -11,10 +11,10 @@ import { AlertType } from './AlertType/AlertType';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
-  private alertMessage: string;
-  private alertType: AlertType;
   private alertSubscription: Subscription;
-  private icon: string;
+  public alertMessage: string;
+  public alertType: AlertType;
+  public icon: string;
 
   constructor(private my_alerService: AlertService) {
     this.alertType = AlertType.NONE;
