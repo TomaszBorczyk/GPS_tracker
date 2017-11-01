@@ -7,7 +7,7 @@ cache:
 install:
   - npm i
 script:
-  - ng build -prod -aot
+  - ng build --prod --env=prod
 
 deploy:
   provider: heroku
