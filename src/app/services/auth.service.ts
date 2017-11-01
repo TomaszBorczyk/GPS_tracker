@@ -8,12 +8,19 @@ import { User } from '../models/user.model';
 
 @Injectable()
 export class AuthService {
-  apiServer: string = Config.apiLocal;
+  apiServer: string;
 
   constructor(
     private http: Http,
     private router: Router
-  ) { }
+  ) {
+    if (process.env.PORT) {
+      this.apiServer = Config.apiLocal;
+    } else {
+      this.apiServer = Config.apiRemote;
+    }
+
+  }
 
 
   public register(email: string, password: string): Promise<boolean> {
