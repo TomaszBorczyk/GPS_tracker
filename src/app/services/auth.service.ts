@@ -14,12 +14,11 @@ export class AuthService {
     private http: Http,
     private router: Router
   ) {
-    if (process.env.PORT) {
-      this.apiServer = Config.apiLocal;
-    } else {
+    if (process.env.PRODUCTION) {
       this.apiServer = Config.apiRemote;
+    } else {
+      this.apiServer = Config.apiLocal;
     }
-
   }
 
 
