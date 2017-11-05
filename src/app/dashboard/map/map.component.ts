@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GPS } from '../../models/gps.model';
+import { default as mapMocks } from './map.mock';
 
 @Component({
   selector: 'app-map',
@@ -6,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+
   public datasets: Array<object>;
+  public positions: Array<GPS>;
+  public centerLocation: GPS;
+  public origin: GPS;
+  public destination: GPS;
 
   constructor() {
     this.datasets = [
@@ -16,6 +21,11 @@ export class MapComponent implements OnInit {
       { name: 'Wen, 10.10.2017'},
       { name: 'Fri, 06.10.2017'}
     ];
+
+    this.positions = mapMocks.markers;
+    this.centerLocation = this.positions[this.positions.length - 1];
+    this.origin = this.positions[0];
+    this.destination = this.positions[1];
   }
 
   ngOnInit() {

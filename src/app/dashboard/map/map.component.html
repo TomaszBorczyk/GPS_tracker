@@ -1,9 +1,13 @@
 <div class="wrapper">
-  <agm-map [latitude]="lat" [longitude]="lng">
-    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  <agm-map [latitude]="centerLocation.lat" [longitude]="centerLocation.lon">
+    <agm-marker *ngFor="let position of positions" [latitude]="position.lat" [longitude]="position.lon"></agm-marker>
+    <app-sebm-google-map-directions [origin]="origin" [destination]="destination"></app-sebm-google-map-directions>
   </agm-map>
 
   <div class="map-menu">
+    <p>asdads
+
+    </p>
     <button class="menu-button">Create route to current position</button>
     <button class="menu-button">Do something fancy</button>
     Select device activity timeframe:
