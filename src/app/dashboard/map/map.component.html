@@ -1,3 +1,15 @@
-<p>
-  map works!
-</p>
+<div class="wrapper">
+  <agm-map [latitude]="lat" [longitude]="lng">
+    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  </agm-map>
+
+  <div class="map-menu">
+    <button class="menu-button">Create route to current position</button>
+    <button class="menu-button">Do something fancy</button>
+    Select device activity timeframe:
+    <select name="datasets-select" id="datasets-select">
+      <option *ngFor="let dataset of datasets" value="dataset">{{dataset.name}}</option>
+    </select>
+  </div>
+</div>
+
