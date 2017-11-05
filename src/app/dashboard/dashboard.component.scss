@@ -1,4 +1,5 @@
 @import './../../consts/colors';
+@import './../../consts/button';
 $list-item-margin: 10px;
 $icon-space: 20px;
 $selected-border-size: 4px;
@@ -67,32 +68,7 @@ aside {
     padding: 0 10px 50px 10px;
 }
 
-.logout {
+.logout-button {
+    @extend .my-button;    
     width: 100%;
-    background-color: darken($color-main-blue, 5%);
-    border: none;
-    color: #c7c7c7;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-    text-align: center;
-    border-radius: 7px;
-    
-    &:hover {
-        background-color: darken($color-main-blue, 10%);
-        color: white;
-        transition: background-color 0.3s;
-        transition: color 0.2s;
-    }
-
-    &:focus {
-        outline: 0;
-    }
-
-    i {
-        font-size: 26px;
-        margin-left: 10px;
-    }
 }
