@@ -30,6 +30,6 @@ module.exports = {
         })
         .then( () => Device.create({device_id: device_id}))
         .then( device => res.send({success: true, device: device}))
-        .catch( err => res.send({success: false, err: err}));
+        .catch( err => res.send({success: false, err: { message: err}}));
     }
 }
