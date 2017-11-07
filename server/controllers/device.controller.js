@@ -4,6 +4,15 @@ const User = require('../models/user.model');
 
 module.exports = {
 
+    triggerIO: function(req, res) {
+        const device_id = req.body.device_id;
+        const io = req.app.get('io');
+        console.log('bob');
+        console.log(Object.keys(io.clients().sockets));
+        io.emit('bob', 'I met you');
+        res.send({success: true});
+    },
+
     updateLocation: function(req, res){
         const body = req.body;
         const device_id = req.body.device_id;
@@ -20,6 +29,8 @@ module.exports = {
             if (!device){
                 res.send({message: 'Device not found'});
             } else {
+                const io = req.app.get('io');
+                io.broadcast.emit('hey', 'I met you');
                 res.send({device: device});
             }
         })
@@ -54,7 +65,11 @@ module.exports = {
                 return foundUser.save();
             }
         })
-        .then( () => res.send({success: true}))
+        .then( () => {
+            const io = req.app.get('io');
+            io.broadcast.emit('hey', 'I met you');
+            res.send({success: true});
+        })
         .catch( err => res.send({err: err}));
 
 
