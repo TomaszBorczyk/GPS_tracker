@@ -16,7 +16,10 @@ const db = process.env.DB_REMOTE || config.db;
 const app = express();
 const deviceRouter = require('./server/routes/device.router');
 const userRouter = require('./server/routes/user.router');
+const userSockets = require('./server/data/userSockets.data');
 let io = require('socket.io');
+
+module.exports.userSockets = [];
 
 passport.use(new localStrategy({usernameField: 'email'}, User.authenticate()));
 passport.serializeUser(User.serializeUser());
@@ -37,16 +40,28 @@ app.use(API.CORE + API.DEVICE, deviceRouter);
 app.use(API.CORE + API.USER, userRouter);
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'dist/index.html')));
 
-const server = http.createServer(app);
 
-// exports.userSockets = let userSockets;
+const server = http.createServer(app);
 
 mongoose.connect(db);
 if(!module.parent){
     server.listen(port);
     io = io(server);
+    let _userId;
+
     io.on('connection', socket => {
-        console.log(socket.id);
+        socket.on('add-user', userId => {
+            _userId = userId;
+            console.log('USER ID', userId);
+            console.log(userSockets.getUserSockets(userId));
+            userSockets.addSocket(userId, socket.id);
+            console.log(userSockets.getUserSockets(userId));
+        });
+
+        socket.on('disconnect', () => {
+            console.log('bye, ', _userId);
+            userSockets.removeSocket(_userId, socket.id);
+        });
     });
     app.set('io', io);
     // startSocket();
