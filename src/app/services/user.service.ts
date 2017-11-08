@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Device } from '../models/device.model';
+import { GPSActivity } from '../models/gps.model';
 import { User } from '../models/user.model';
-
 
 @Injectable()
 export class UserService {
@@ -12,18 +12,25 @@ export class UserService {
   }
 
   public getUserId(): string {
-      const user: User =  JSON.parse(localStorage.getItem('user'));
-      return user.id;
+      return this.getUserLocalStorage().id;
   }
 
   public getUser(): User {
-      const user: User =  JSON.parse(localStorage.getItem('user'));
-      return user;
+      return this.getUserLocalStorage();
   }
 
   public getDevices(): Array<Device> {
-    const devices: Array<Device> = (JSON.parse(localStorage.getItem('user')) as User).devices;
-    return devices;
+    return this.getUserLocalStorage().devices;
   }
 
+  public getDeviceGPSActivities(deviceId: string): Array<GPSActivity> {
+    const device: Device = this.getUserLocalStorage().devices.filter( _device => _device.deviceId === deviceId)[0];
+    console.log(device);
+    return device.gpsData;
+  }
+
+  private getUserLocalStorage() {
+    const user: User =  JSON.parse(localStorage.getItem('user'));
+    return user;
+  }
 }

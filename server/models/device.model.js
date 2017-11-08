@@ -2,16 +2,22 @@ const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 let DeviceSchema = new Schema({
-    device_id: String,
+    deviceId: String,
     name: String,
-    gps_data: [
+    gpsData: [
         {
-            lat: Number,
-            lon: Number,
-            msg: String,
-            date: { type: Date, default: Date.now },
+            wakeupTime: String,
+            coords: [
+                {
+                    lat: Number,
+                    lon: Number,
+                    msg: String,
+                    date: { type: Date, default: Date.now },
+                }
+            ]
         }
     ],
+
     date_created: { type: Date, default: Date.now },
     owner: {
         type: Schema.Types.ObjectId,

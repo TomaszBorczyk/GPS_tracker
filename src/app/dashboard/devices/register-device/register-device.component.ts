@@ -51,7 +51,7 @@ export class RegisterDeviceComponent implements OnInit {
     if (this.registerForm.valid) {
       this.emitEvent.next('hello');
       console.log('submit');
-      const newDevice: Device = { device_id: this.registerForm.get('imei').value };
+      const newDevice: Device = { deviceId: this.registerForm.get('imei').value };
       this.my_DeviceService
       .registerDevice(newDevice)
       .then( (device: Device) => console.log(device))

@@ -2,11 +2,12 @@
 const Device = require('../models/device.model');
 const User = require('../models/user.model');
 const userSockets = require('../data/userSockets.data');
+const ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
 
     triggerIO: function(req, res) {
-        const device_id = req.body.device_id;
+        // const deviceId = req.body.deviceId;
         const io = req.app.get('io');
         console.log('bob');
         console.log(Object.keys(io.clients().sockets));
@@ -17,45 +18,65 @@ module.exports = {
 
     updateLocation: function(req, res){
         const body = req.body;
-        const device_id = body.device_id;
+        const deviceId = body.deviceId;
+        const wakeupTime = body.wakeupTime;
         const newLocation = {
             lat: body.lat,
             lon: body.lon,
+            date: Date.now()
         };
 
+        // Device
+        // .findOneAndUpdate(
+        //     { deviceId: deviceId, "gpsData._id": objectId },
+        //     // { $push: { gpsData: newLocation }})
+        //     // { $push: { "gpsData.0.coords": newLocation}},
+        //     { $push: { "gpsData.$.coords": newLocation}},
+        //     { $upsert: true, new: true })
+        // .populate('owner')
+        // .then( device => {
+        //     if (!device){
+        //         res.send({message: 'Device not found'});
+        //     } else {
+        //         const io = req.app.get('io');
+        //         const user_id = device.owner._id;
+        //         emitToUser(io, user_id, deviceId, type, newLocation);
+        //         res.send({device: device});
+        //     }
+        // })
+        // .catch( err => res.send({success: false, err: err}));
+
+
         Device
-        .findOneAndUpdate(
-            { device_id: device_id},
-            { $push: { gps_data: newLocation }})
+        .findOne({deviceId: deviceId})
         .populate('owner')
         .then( device => {
             if (!device){
                 res.send({message: 'Device not found'});
             } else {
                 const io = req.app.get('io');
-                const userId = device.owner._id;
-                const socketIds = userSockets.getUserSockets(userId);
-                console.log('sockets:', socketIds);
-                if(socketIds !== undefined) {
-                    const message = {
-                        device: device_id,
-                        location: newLocation
-                    };
-                    socketIds.forEach( socketId => {
-                        if(io.sockets.connected[socketId] !== undefined) {
-                            io.sockets.connected[socketId].emit('alert', message);
-                        }
-                    });
-                }
+                const user_id = device.owner._id;
 
-                res.send({device: device});
+                for(let i = 0; i < device.gpsData.length; i+=1) {
+                    const data = device.gpsData[i];
+                    if(data.wakeupTime === wakeupTime){
+                        data.coords.push(newLocation);
+                        emitToUser(io, user_id, deviceId, 'alert', newLocation);
+                        return device.save();
+                    }
+                }
+                const gpsData = { wakeupTime: wakeupTime, coords: [newLocation]};
+                device.gpsData.push(gpsData);
+                emitToUser(io, user_id, deviceId, 'update', newLocation);
+                return device.save();
             }
         })
-        .catch( err => res.send({success: false, err: err}))
+        .then( device => res.send({device: device}))
+        .catch( err => res.send({err: err}));
     },
 
     registerDevice: function(req, res){
-        const device_id = req.body.device_id;
+        const deviceId = req.body.deviceId;
         const user_id = req.body.user_id;
         let foundUser;
 
@@ -66,12 +87,12 @@ module.exports = {
                 throw 'User not found';
             } else if (user) {
                 user.devices.forEach( device => {
-                    if (device.device_id === device_id) {
+                    if (device.deviceId === deviceId) {
                         throw 'Device already registered to that user';
                     }
                 })
 
-                const newDevice = new Device({device_id: device_id, owner: user});
+                const newDevice = new Device({deviceId: deviceId, owner: user});
                 foundUser = user;
                 foundUser.devices.push(newDevice);
                 return newDevice.save();
@@ -88,16 +109,18 @@ module.exports = {
             res.send({success: true});
         })
         .catch( err => res.send({err: err}));
-
-
-        // Device
-        // .findOne( {device_id: device_id})
-        // .then( device => {
-        //     if (device !== null) throw 'Device with that id already exists';
-        //     else { return device; }
-        // })
-        // .then( () => Device.create({device_id: device_id}))
-        // .then( device => res.send({success: true, device: device}))
-        // .catch( err => res.send({success: false, err: { message: err}}));
     }
+}
+
+function emitToUser(io, user_id, deviceId, type, data) {
+    const socketIds = userSockets.getUserSockets(user_id);
+    console.log('sockets:', socketIds);
+    if(socketIds !== undefined) {
+        socketIds.forEach( socketId => {
+            if(io.sockets.connected[socketId] !== undefined) {
+                io.sockets.connected[socketId].emit(type, data);
+            }
+        });
+    }
+
 }
