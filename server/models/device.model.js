@@ -13,6 +13,10 @@ let DeviceSchema = new Schema({
         }
     ],
     date_created: { type: Date, default: Date.now },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 const DeviceModel = mongoose.model('Device', DeviceSchema);

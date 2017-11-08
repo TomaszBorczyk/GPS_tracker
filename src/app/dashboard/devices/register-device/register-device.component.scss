@@ -1,0 +1,38 @@
+@import '../../../../consts/colors';
+
+form {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.title{
+    margin-right: 50px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    
+    label {
+        display: flex;
+        flex-direction: column;
+        margin-right: 20px;
+    }
+
+    input{
+        overflow: hidden;
+        padding: 7px;
+        width: 200px;
+    }
+ 
+}
+
+span {
+    font-size: 12px;
+    color: $color-warning-orange;
+} 
+
+button{
+    height: 20px;
+}

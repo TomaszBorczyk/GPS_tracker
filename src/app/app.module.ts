@@ -5,16 +5,25 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DevicesComponent } from './dashboard/devices/devices.component';
 import { DirectionsMapDirective } from './dashboard/map/map-direction.directive';
 import { MapComponent } from './dashboard/map/map.component';
 import { OptionsComponent } from './dashboard/options/options.component';
+
 import { AuthService } from './services/auth.service';
+import { DeviceService } from './services/device.service';
+import { SocketService } from './services/socket.service';
+import { UserService } from './services/user.service';
+
 import { AlertService } from './welcome/alertService/alert.service';
 import { LoginComponent } from './welcome/login/login.component';
 import { RegisterComponent } from './welcome/register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+
+import { DeviceListComponent } from './dashboard/devices/device-list/device-list.component';
+import { RegisterDeviceComponent } from './dashboard/devices/register-device/register-device.component';
 
 
 @NgModule({
@@ -27,7 +36,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
     DevicesComponent,
     OptionsComponent,
     WelcomeComponent,
-    DirectionsMapDirective
+    DirectionsMapDirective,
+    RegisterDeviceComponent,
+    DeviceListComponent
   ],
   imports: [
     AppRoutingModule,
@@ -41,7 +52,10 @@ import { WelcomeComponent } from './welcome/welcome.component';
   ],
   providers: [
     AlertService,
-    AuthService
+    AuthService,
+    DeviceService,
+    SocketService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

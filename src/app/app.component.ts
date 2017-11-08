@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as io from 'socket.io-client';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,19 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'app';
+  private socket;
+
+  constructor() {
+    // this.socket = io('http://127.0.0.1:4567');
+    // this.socket.on('connect', () => {
+    //   console.log('connected');
+    //   this.socket.emit('my-id', this.socket.id);
+    //   this.socket.on('bob', message => {
+    //     console.log(message);
+    //     console.log(this.socket.id);
+    //   });
+    // });
+  }
+
 }
+
