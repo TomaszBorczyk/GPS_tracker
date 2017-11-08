@@ -37,9 +37,13 @@ module.exports = {
                 const socketIds = userSockets.getUserSockets(userId);
                 console.log('sockets:', socketIds);
                 if(socketIds !== undefined) {
+                    const message = {
+                        device: device_id,
+                        location: newLocation
+                    };
                     socketIds.forEach( socketId => {
                         if(io.sockets.connected[socketId] !== undefined) {
-                            io.sockets.connected[socketId].emit('alert', 'Unwanted movement');
+                            io.sockets.connected[socketId].emit('alert', message);
                         }
                     });
                 }
