@@ -13,7 +13,7 @@ let UserSchema = new Schema({
     date_created: { type: Date, default: Date.now },
 });
 
-UserSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
+UserSchema.plugin(passportLocalMongoose, { usernameField: 'email', populateFields: 'devices' });
 
 const UserModel = mongoose.model('User', UserSchema);
 
