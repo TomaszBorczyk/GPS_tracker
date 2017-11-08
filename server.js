@@ -59,7 +59,6 @@ if(!module.parent){
         });
 
         socket.on('disconnect', () => {
-            console.log('bye, ', _userId);
             userSockets.removeSocket(_userId, socket.id);
         });
     });

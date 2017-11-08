@@ -9,6 +9,10 @@ module.exports.addSocket = (userId, socketId) => {
 }
 
 module.exports.removeSocket = (userId, socketIdToRemove) => {
+    if(module.exports.userSockets[userId] === undefined) {
+        console.log('no such userId');
+        return;
+    }
     module.exports.userSockets[userId].forEach( (socketId, i) => {
         if (socketId === socketIdToRemove) {
             module.exports.userSockets[userId].splice(i, 1);

@@ -29,13 +29,18 @@ export class SocketService {
 
     this.socket.on('alert', message => {
         console.log(message);
-    })
+    });
   }
 
   public emitUserId() {
       const userId = this.my_userService.getUserId();
       this.socket.emit('add-user', userId);
   }
+
+  public disconnect() {
+     this.socket.disconnect();
+  }
+
 
 
 
