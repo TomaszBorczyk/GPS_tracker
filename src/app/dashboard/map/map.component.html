@@ -1,15 +1,21 @@
 <div class="wrapper">
   <agm-map [latitude]="centerLocation.lat" [longitude]="centerLocation.lon">
-    <agm-marker *ngFor="let position of positions" [latitude]="position.lat" [longitude]="position.lon"></agm-marker>
-    <app-sebm-google-map-directions [origin]="origin" [destination]="destination"></app-sebm-google-map-directions>
+    <agm-marker *ngFor="let coord of selectedActivity.coords" [latitude]="coord.lat" [longitude]="coord.lon"></agm-marker>
+    
+    <!-- do not delete, important! -->
+    <!-- <app-sebm-google-map-directions [origin]="origin" [destination]="destination"></app-sebm-google-map-directions> -->
   </agm-map>
 
   <div class="map-menu">
     <button class="menu-button">Create route to current position</button>
     <button class="menu-button">Do something fancy</button>
     Select device activity timeframe:
-    <select name="datasets-select" id="datasets-select">
-      <option *ngFor="let dataset of datasets" value="dataset">{{dataset.name}}</option>
+    <select [ngModel]="selectedDevice" name="devices-select" id="devices-select" (ngModelChange)="selectDevice($event)">
+      <option *ngFor="let device of devices" [ngValue]="device">{{device.deviceId}}</option>
+    </select>
+
+    <select [ngModel]="selectedActivity" name="activity-select" id="activity-select" (ngModelChange)="selectActivity($event)">
+      <option *ngFor="let activity of gpsActivities" [ngValue]="activity">{{activity.wakeupTime}}</option>
     </select>
   </div>
 </div>

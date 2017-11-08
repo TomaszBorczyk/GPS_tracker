@@ -20,13 +20,15 @@ export class UserService {
   }
 
   public getDevices(): Array<Device> {
-    return this.getUserLocalStorage().devices;
+    const devices = this.getUserLocalStorage().devices;
+    return devices === undefined ? [] : devices;
   }
 
   public getDeviceGPSActivities(deviceId: string): Array<GPSActivity> {
-    const device: Device = this.getUserLocalStorage().devices.filter( _device => _device.deviceId === deviceId)[0];
-    console.log(device);
-    return device.gpsData;
+    console.log('devices', this.getDevices());
+    const device: Device = this.getDevices().filter( _device => _device.deviceId === deviceId)[0];
+    console.log('device', device);
+    return device.gpsData === undefined ? [] : device.gpsData;
   }
 
   private getUserLocalStorage() {

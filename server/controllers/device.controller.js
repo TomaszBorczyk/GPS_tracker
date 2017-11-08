@@ -39,8 +39,8 @@ module.exports = {
         //         res.send({message: 'Device not found'});
         //     } else {
         //         const io = req.app.get('io');
-        //         const user_id = device.owner._id;
-        //         emitToUser(io, user_id, deviceId, type, newLocation);
+        //         const userId = device.owner._id;
+        //         emitToUser(io, userId, deviceId, type, newLocation);
         //         res.send({device: device});
         //     }
         // })
@@ -55,19 +55,19 @@ module.exports = {
                 res.send({message: 'Device not found'});
             } else {
                 const io = req.app.get('io');
-                const user_id = device.owner._id;
+                const userId = device.owner._id;
 
                 for(let i = 0; i < device.gpsData.length; i+=1) {
                     const data = device.gpsData[i];
                     if(data.wakeupTime === wakeupTime){
                         data.coords.push(newLocation);
-                        emitToUser(io, user_id, deviceId, 'alert', newLocation);
+                        emitToUser(io, userId, deviceId, 'alert', newLocation);
                         return device.save();
                     }
                 }
                 const gpsData = { wakeupTime: wakeupTime, coords: [newLocation]};
                 device.gpsData.push(gpsData);
-                emitToUser(io, user_id, deviceId, 'update', newLocation);
+                emitToUser(io, userId, deviceId, 'update', newLocation);
                 return device.save();
             }
         })
@@ -77,10 +77,10 @@ module.exports = {
 
     registerDevice: function(req, res){
         const deviceId = req.body.deviceId;
-        const user_id = req.body.user_id;
+        const userId = req.body.userId;
         let foundUser;
 
-        User.findById(user_id)
+        User.findById(userId)
         .populate('devices')
         .then( user => {
             if (!user) {
@@ -112,8 +112,8 @@ module.exports = {
     }
 }
 
-function emitToUser(io, user_id, deviceId, type, data) {
-    const socketIds = userSockets.getUserSockets(user_id);
+function emitToUser(io, userId, deviceId, type, data) {
+    const socketIds = userSockets.getUserSockets(userId);
     console.log('sockets:', socketIds);
     if(socketIds !== undefined) {
         socketIds.forEach( socketId => {
