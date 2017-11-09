@@ -3,7 +3,8 @@ import { Component, Directive, Input, OnInit } from '@angular/core';
 declare var google: any;
 
 @Directive({
-    selector: 'app-sebm-google-map-directions'
+    selector: 'app-sebm-google-map-directions',
+    exportAs: 'mapdirection'
   })
   export class DirectionsMapDirective implements OnInit {
     @Input() origin;
@@ -33,5 +34,9 @@ declare var google: any;
                 });
 
       });
+    }
+
+    public hello() {
+      console.log('hello');
     }
   }

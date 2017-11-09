@@ -1,13 +1,16 @@
 <div class="wrapper">
   <agm-map [latitude]="centerLocation.lat" [longitude]="centerLocation.lon">
     <agm-marker *ngFor="let coord of selectedActivity.coords" [latitude]="coord.lat" [longitude]="coord.lon"></agm-marker>
-    
-    <!-- do not delete, important! -->
-    <!-- <app-sebm-google-map-directions [origin]="origin" [destination]="destination"></app-sebm-google-map-directions> -->
+    <app-sebm-google-map-directions *ngIf="createRouteFlag" [origin]="origin" [destination]="destination"></app-sebm-google-map-directions>
   </agm-map>
 
+  <!-- <app-map-google [latitude]="centerLocation.lat" [longitude]="centerLocation.lon">
+    <agm-marker *ngFor="let coord of selectedActivity.coords" [latitude]="coord.lat" [longitude]="coord.lon"></agm-marker>
+    <app-sebm-google-map-directions #cdire=mapdirection *ngIf="createRouteFlag" [origin]="origin" [destination]="destination"></app-sebm-google-map-directions>
+  </app-map-google> -->
+
   <div class="map-menu">
-    <button class="menu-button">Create route to current position</button>
+    <button class="menu-button" (click)="createRoute()">Create route to current position</button>
     <button class="menu-button">Do something fancy</button>
     Select device activity timeframe:
     <select [ngModel]="selectedDevice" name="devices-select" id="devices-select" (ngModelChange)="selectDevice($event)">
