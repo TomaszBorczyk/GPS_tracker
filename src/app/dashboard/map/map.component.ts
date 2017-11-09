@@ -9,38 +9,24 @@ import { GPSActivity } from '../../models/gps.model';
 import { default as mapMocks } from './map.mock';
 
 
-// @Component({
-//   selector: 'app-map-google',
-// })
-// class AgmMapCustomComponent extends AgmMap {
-//   @ViewChild('cdire') route;
-
-//   public callHello() {
-//     this.route.hello();
-//   }
-// }
-
-
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-
-  // @ViewChild(AgmMapCustomComponent) agmMap: AgmMapCustomComponent;
   @ViewChild(AgmMap) agmMap: AgmMap;
 
-  public positions: Array<Coord>;
   public centerLocation: Coord;
   public origin: Coord;
   public destination: Coord;
-
   public gpsActivities: Array<GPSActivity>;
   public devices: Array<Device>;
+  public positions: Array<Coord>;
 
   public selectedActivity: GPSActivity;
   public selectedDevice: Device;
+
   public createRouteFlag: boolean;
 
   constructor(
@@ -53,17 +39,8 @@ export class MapComponent implements OnInit {
     //handle if no devices or no activities
     this.devices = this.my_userService.getDevices();
     this.gpsActivities = this.my_userService.getDeviceGPSActivities(this.devices[0].deviceId);
-    this.selectedActivity = this.gpsActivities[0];
-    // this.selectedDevice = this.devices[1];
-    this.selectDevice(this.devices[1]);
-    this.centerLocation = this.selectedActivity.coords[0];
-
-    const coords = this.selectedActivity.coords;
-    const nullCoord: Coord = {lat: null, lon: null, date: null};
-    this.createRoute(coords[0], coords[1]);
-    this.createRoute(coords[0], coords[2]);
-    this.createRoute(nullCoord, nullCoord);
-    // this.agmMap.callHello();
+    this.selectDevice(this.devices[0]);
+    // this.centerLocation = this.selectedActivity.coords[0];
   }
 
   public selectDevice(device: Device) {
@@ -74,6 +51,7 @@ export class MapComponent implements OnInit {
   }
 
   public selectActivity(activity: GPSActivity) {
+    // this.selectedActivity = new GPSActivity(activity.wakeupTime, activity.coords);
     this.selectedActivity = activity;
     this.clearRoute();
     this.setMapCenter(activity.coords[0]);
@@ -85,10 +63,19 @@ export class MapComponent implements OnInit {
 
   }
 
-  public createRoute(origin: Coord, destination: Coord) {
-    this.origin = origin;
-    this.destination = destination;
+  public createRoute() {
+    const coords: Array<Coord> = this.selectedActivity.coords;
+    console.log('activity', this.selectedActivity);
+    // const activity = new GPSActivity(this.selectedActivity);
+    // this.selectedActivity.sayHello();
+    this.origin = coords[0];
+    this.destination = coords[coords.length - 1];
     this.createRouteFlag = true;
+  }
+
+  public triggerRoute(): void {
+    this.createRouteFlag = !this.createRouteFlag;
+    console.log(this.createRouteFlag);
   }
 
   private clearRoute() {

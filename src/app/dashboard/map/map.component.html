@@ -12,6 +12,7 @@
   <div class="map-menu">
     <button class="menu-button" (click)="createRoute()">Create route to current position</button>
     <button class="menu-button">Do something fancy</button>
+    <button class="menu-button" (click)="triggerRoute()">Turn on/off route</button>
     Select device activity timeframe:
     <select [ngModel]="selectedDevice" name="devices-select" id="devices-select" (ngModelChange)="selectDevice($event)">
       <option *ngFor="let device of devices" [ngValue]="device">{{device.deviceId}}</option>
