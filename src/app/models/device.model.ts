@@ -4,5 +4,5 @@ export interface Device {
     deviceId: string;
     name?: string;
     gpsData?: Array<GPSActivity>;
-    date?: Date;
+    date_created?: Date;
 }
