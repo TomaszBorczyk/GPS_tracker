@@ -37,13 +37,12 @@ aside {
         }
         &.active{
             background-color: lighten($color-main-blue, 5%);
-            border-left: $selected-border-size #13d4ff solid;           
+            border-left: $selected-border-size $color-detail-blue solid;           
             color: white;
             padding-left: $icon-space - $selected-border-size;            
         }
 
         p {
-            font-weight: bold;
             margin: $list-item-margin 0 $list-item-margin 0;
         }
 

@@ -1,5 +1,6 @@
 @import '../../../consts/colors';
 @import '../../../consts/button';
+@import '../../../consts/select';
 
 :host {
     width: 100%;
@@ -26,6 +27,32 @@ agm-map {
 }
 
 .menu-button {
-    @extend .round-button;
     margin-top: 10px;
+}
+
+.data-select{
+    width: 20em;
+}
+
+.device-select{
+    margin-right: 10px;
+}
+
+.device-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.description {
+    margin-right: 20px;
+}
+
+.button-row {
+    display: flex;
+    flex-direction: row;
+    button:nth-child(1){
+        margin-right: 10px;
+    }
 }

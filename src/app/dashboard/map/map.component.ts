@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
 import { UserService } from '../../services/user.service';
 
+import { User } from '../../models/user.model';
 import { Coord } from '../../models/coords.model';
 import { Device } from '../../models/device.model';
 import { GPSActivity } from '../../models/gps.model';
@@ -33,41 +34,33 @@ export class MapComponent implements OnInit {
     private my_userService: UserService
   ) {
     this.createRouteFlag = false;
+    this.selectedActivity = null;
   }
 
   ngOnInit() {
-    //handle if no devices or no activities
+    this.setDevices();
+    this.setMap();
+  }
+
+  private setDevices(): void {
     this.devices = this.my_userService.getDevices();
-    this.gpsActivities = this.my_userService.getDeviceGPSActivities(this.devices[0].deviceId);
-    this.selectDevice(this.devices[0]);
-    // this.centerLocation = this.selectedActivity.coords[0];
+    this.selectedDevice = this.devices === [] ? null : this.devices[0];
   }
 
-  public selectDevice(device: Device) {
+  public selectDevice(device: Device): void {
     this.selectedDevice = device;
-    this.gpsActivities = this.selectedDevice.gpsData;
-    console.log(this.gpsActivities);
-    this.selectActivity(device.gpsData[0]);
+    this.selectedActivity = null;
   }
 
-  public selectActivity(activity: GPSActivity) {
-    // this.selectedActivity = new GPSActivity(activity.wakeupTime, activity.coords);
+  public selectActivity(activity: GPSActivity): void {
     this.selectedActivity = activity;
     this.clearRoute();
     this.setMapCenter(activity.coords[0]);
     this.agmMap.triggerResize(true).then( () => console.log('resize triggered'));
   }
 
-  //redundant? I already have devices, where is gpsData
-  public getDeviceActivities(device: Device) {
-
-  }
-
-  public createRoute() {
+  public createRoute(): void {
     const coords: Array<Coord> = this.selectedActivity.coords;
-    console.log('activity', this.selectedActivity);
-    // const activity = new GPSActivity(this.selectedActivity);
-    // this.selectedActivity.sayHello();
     this.origin = coords[0];
     this.destination = coords[coords.length - 1];
     this.createRouteFlag = true;
@@ -75,16 +68,21 @@ export class MapComponent implements OnInit {
 
   public triggerRoute(): void {
     this.createRouteFlag = !this.createRouteFlag;
-    console.log(this.createRouteFlag);
   }
 
-  private clearRoute() {
+  private clearRoute(): void {
     this.createRouteFlag = false;
   }
 
-  private setMapCenter(coord: Coord) {
+  private setMap(): void {
+    this.setMapCenter({lat: 0, lon: 0, date: new Date()});
+  }
+
+  private setMapCenter(coord: Coord): void {
     this.centerLocation = coord;
   }
-  
+
+
+
 
 }

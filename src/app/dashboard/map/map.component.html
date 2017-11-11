@@ -1,7 +1,9 @@
 <div class="wrapper">
   <agm-map [latitude]="centerLocation.lat" [longitude]="centerLocation.lon">
-    <agm-marker *ngFor="let coord of selectedActivity.coords" [latitude]="coord.lat" [longitude]="coord.lon"></agm-marker>
-    <app-sebm-google-map-directions *ngIf="createRouteFlag" [origin]="origin" [destination]="destination"></app-sebm-google-map-directions>
+    <div *ngIf="selectedActivity">
+        <agm-marker *ngFor="let coord of selectedActivity.coords" [latitude]="coord.lat" [longitude]="coord.lon"></agm-marker>
+    </div>
+    <app-sebm-google-map-directions *ngIf="createRouteFlag && selectedActivity" [origin]="origin" [destination]="destination"></app-sebm-google-map-directions>
   </agm-map>
 
   <!-- <app-map-google [latitude]="centerLocation.lat" [longitude]="centerLocation.lon">
@@ -10,17 +12,38 @@
   </app-map-google> -->
 
   <div class="map-menu">
-    <button class="menu-button" (click)="createRoute()">Create route to current position</button>
-    <button class="menu-button">Do something fancy</button>
-    <button class="menu-button" (click)="triggerRoute()">Turn on/off route</button>
-    Select device activity timeframe:
-    <select [ngModel]="selectedDevice" name="devices-select" id="devices-select" (ngModelChange)="selectDevice($event)">
-      <option *ngFor="let device of devices" [ngValue]="device">{{device.deviceId}}</option>
-    </select>
+    <div class="button-row">
+      <button class="menu-button round-button" (click)="createRoute()" [disabled]="!selectedActivity">Create route to current position</button>
+      <button class="menu-button round-button" (click)="triggerRoute()">Turn on/off route</button>
+    </div>
+  
+    <div *ngIf="devices.length>0" class="device-menu">
+      <div class="description">
+          Select device activity timeframe:
+      </div>
+      <div class="my-select device-select">
+          <select [ngModel]="selectedDevice" name="devices-select" id="devices-select" (ngModelChange)="selectDevice($event)">
+              <option *ngFor="let device of devices" [ngValue]="device">{{device.deviceId}}</option>
+          </select>
+      </div>
 
-    <select [ngModel]="selectedActivity" name="activity-select" id="activity-select" (ngModelChange)="selectActivity($event)">
-      <option *ngFor="let activity of gpsActivities" [ngValue]="activity">{{activity.wakeupTime}}</option>
-    </select>
+      <div *ngIf="selectedDevice.gpsData.length>0" class="my-select data-select">
+        <select [ngModel]="selectedActivity" name="activity-select" id="activity-select" (ngModelChange)="selectActivity($event)">
+          <option *ngFor="let activity of selectedDevice.gpsData" [ngValue]="activity">{{activity.wakeupTime}}</option>
+        </select>
+      </div>
+    
+      <div *ngIf="selectedDevice.gpsData.length===0">
+        No data for this device
+      </div>
+    </div>
+
+    <p *ngIf="devices.length === 0">
+      No devices linked to your account;
+    </p>
+
+
+
   </div>
 </div>
 

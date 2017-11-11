@@ -7,8 +7,10 @@ import { User } from '../models/user.model';
 @Injectable()
 export class UserService {
 
-  constructor(
-  ) {
+  constructor() {}
+
+  public setUser(user: User): void {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   public getUserId(): string {
@@ -31,7 +33,7 @@ export class UserService {
     return device.gpsData === undefined ? [] : device.gpsData;
   }
 
-  private getUserLocalStorage() {
+  private getUserLocalStorage(): User {
     const user: User =  JSON.parse(localStorage.getItem('user'));
     return user;
   }

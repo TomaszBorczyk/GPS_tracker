@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
+
 import { environment } from '../../environments/environment';
 import { User } from '../models/user.model';
+import { UserService } from './user.service';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +14,8 @@ export class AuthService {
 
   constructor(
     private http: Http,
-    private router: Router
+    private router: Router,
+    private my_userService: UserService
   ) {
     this.apiServer = environment.apiUrl;
   }
@@ -38,8 +41,8 @@ export class AuthService {
     return this
       .postHTTP('/user/login', body)
       .then( (res: Response) => {
-        const resUser: User = res.json().user;
-        localStorage.setItem('user', JSON.stringify(resUser));
+        const user: User = res.json().user;
+        this.my_userService.setUser(user);
         this.router.navigate(['/dashboard']);
       });
     }
@@ -52,6 +55,21 @@ export class AuthService {
         if (res.json().success === true) {
           this.router.navigate(['/login']);
         }
+      });
+  }
+
+  public getUser(): Promise<User> {
+    return this.http
+      .get(this.apiServer + '/user/user')
+      .toPromise()
+      .then( data => {
+        const user: User = data.json().user;
+        console.log('USER', user);
+        if (user === undefined) {
+          this.logout();
+          throw new Error('user not foud on server');
+        }
+        return user;
       });
   }
 

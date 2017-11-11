@@ -15,15 +15,16 @@ export class DashboardComponent implements OnInit {
   public items: Array<object>;
   public user: User;
 
-  constructor( private my_authService: AuthService, private my_socketService: SocketService, private my_userService: UserService) {
+  constructor( private my_authService: AuthService, private my_userService: UserService) {
     this.items = [
       { name: 'Map', icon: 'my_location', link: 'map'},
       { name: 'Devices', icon: 'settings_remote', link: 'devices'},
       { name: 'Options', icon: 'settings', link: 'options'},
     ];
 
-    this.user = my_userService.getUser();
-    this.my_socketService.emitUserId();
+    this.loadUserLocalStorage();
+    this.loadUserHttpAndSaveLocalStorage();
+    // this.my_socketService.emitUserId();
   }
 
   ngOnInit() {
@@ -31,6 +32,20 @@ export class DashboardComponent implements OnInit {
 
   public logout(): void {
     this.my_authService.logout();
+  }
+
+  private loadUserLocalStorage(): void {
+    this.user = this.my_userService.getUser();
+  }
+
+  private loadUserHttpAndSaveLocalStorage(): void {
+    this.my_authService
+    .getUser()
+    .then( (user: User) => {
+      this.user = user;
+      this.my_userService.setUser(user);
+    })
+    .catch( err => console.log(err));
   }
 
 

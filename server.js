@@ -13,7 +13,6 @@ const config = require('./server/config/config');
 const User = require('./server/models/user.model');
 const port = process.env.PORT || config.port;
 const db = process.env.DB_REMOTE || config.db;
-const app = express();
 const deviceRouter = require('./server/routes/device.router');
 const userRouter = require('./server/routes/user.router');
 const userSockets = require('./server/data/userSockets.data');
@@ -21,6 +20,7 @@ let io = require('socket.io');
 
 module.exports.userSockets = [];
 
+const app = express();
 passport.use(new localStrategy({usernameField: 'email'}, User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

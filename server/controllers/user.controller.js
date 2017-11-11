@@ -3,10 +3,6 @@ const User = require('../models/user.model'),
 
 module.exports = {
 
-    //=======================
-    // AUTHENTICATION & USER
-    //=======================
-
     postRegister: function (req, res) {
         const { email, password } = req.body;
 
@@ -27,13 +23,11 @@ module.exports = {
 
     postLogin: function (req, res) {
         const user =  {
-            user: {
                 id: req.user._id,
                 email: req.user.email,
                 devices: req.user.devices
-            }
         }
-        res.send(user);
+        res.send({user: user});
     },
 
     logout: function(req, res){
@@ -41,38 +35,16 @@ module.exports = {
         res.send({ success: true});
     },
 
-    changePassword: function (req, res) {
-        const newPass = req.body.newPass;
-
-        User.findOne({ _id: req.user._id })
-            .then(user => {
-                if (!user) {
+    getUser: function(req, res) {
+        User
+            .findById(req.user._id, {salt: 0, hash: 0})
+            .populate('devices')
+            .then( user => {
+                if(!user){
                     console.log('user not found');
-                    res.send({ success: false, msg: 'User not found' });
-                }
-                else { return user.setPassword(newPass) }
-            })
-            .then(user => user.save())
-            .then(() => res.send({ success: true }))
-            .catch(err => res.send({ success: false, err: err }))
-    },
-
-    getUser: function (req, res) {
-        let UserID = req.query.userid;
-        User.findOne({ _id: UserID })
-            .populate("ratings.author") //uprościć
-            .exec(function (err, user) {
-                if (err) {
-                    console.log(err);
-                    res.send({ success: false });
-                    return;
-                }
-                if (!user) {
-                    console.log("Can't find this user.");
-                    res.send({ success: false });
-                }
-                if (user) {
-                    res.send(user);
+                    res.send({success: false});
+                } else {
+                    res.send({success: true, user: user});
                 }
             })
     }
