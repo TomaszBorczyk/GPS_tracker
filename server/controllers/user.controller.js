@@ -23,7 +23,7 @@ module.exports = {
 
     postLogin: function (req, res) {
         const user =  {
-                id: req.user._id,
+                _id: req.user._id,
                 email: req.user.email,
                 devices: req.user.devices
         }

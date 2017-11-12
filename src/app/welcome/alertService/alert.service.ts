@@ -9,7 +9,7 @@ export interface AlertInfo {
 }
 
 @Injectable()
-export class AlertService {
+export class LoginAlertService {
   private alertTypeSource: BehaviorSubject<AlertInfo>;
   public alertType: Observable<AlertInfo>;
 

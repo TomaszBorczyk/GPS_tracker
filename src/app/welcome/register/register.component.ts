@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
-import { AlertService } from '../alertService/alert.service';
+import { LoginAlertService } from '../alertService/alert.service';
 import { AlertType } from '../AlertType/AlertType';
 
 
@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private my_AuthService: AuthService,
-    private my_alertService: AlertService,
+    private my_alertService: LoginAlertService,
     private router: Router
   ) { }
 

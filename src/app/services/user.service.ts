@@ -14,7 +14,7 @@ export class UserService {
   }
 
   public getUserId(): string {
-      return this.getUserLocalStorage().id;
+      return this.getUserLocalStorage()._id;
   }
 
   public getUser(): User {

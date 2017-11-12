@@ -2,7 +2,6 @@
 const Device = require('../models/device.model');
 const User = require('../models/user.model');
 const userSockets = require('../data/userSockets.data');
-const ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
 
@@ -16,6 +15,11 @@ module.exports = {
         res.send({success: true});
     },
 
+    getSockets: function(req, res) {
+        console.log(req.app.get('io').sockets.connected);
+        res.send({fuck: 'you'});
+    },
+
     updateLocation: function(req, res){
         const body = req.body;
         const deviceId = body.deviceId;
@@ -25,27 +29,6 @@ module.exports = {
             lon: body.lon,
             date: Date.now()
         };
-
-        // Device
-        // .findOneAndUpdate(
-        //     { deviceId: deviceId, "gpsData._id": objectId },
-        //     // { $push: { gpsData: newLocation }})
-        //     // { $push: { "gpsData.0.coords": newLocation}},
-        //     { $push: { "gpsData.$.coords": newLocation}},
-        //     { $upsert: true, new: true })
-        // .populate('owner')
-        // .then( device => {
-        //     if (!device){
-        //         res.send({message: 'Device not found'});
-        //     } else {
-        //         const io = req.app.get('io');
-        //         const userId = device.owner._id;
-        //         emitToUser(io, userId, deviceId, type, newLocation);
-        //         res.send({device: device});
-        //     }
-        // })
-        // .catch( err => res.send({success: false, err: err}));
-
 
         Device
         .findOne({deviceId: deviceId})
@@ -61,13 +44,17 @@ module.exports = {
                     const data = device.gpsData[i];
                     if(data.wakeupTime === wakeupTime){
                         data.coords.push(newLocation);
-                        emitToUser(io, userId, deviceId, 'alert', newLocation);
+                        const gpsData = { deviceId: deviceId, wakeupTime: wakeupTime, coords: [newLocation]};
+                        emitToUser(io, userId, deviceId, 'update', gpsData);
+                        console.log('update');
                         return device.save();
                     }
                 }
                 const gpsData = { wakeupTime: wakeupTime, coords: [newLocation]};
                 device.gpsData.push(gpsData);
-                emitToUser(io, userId, deviceId, 'update', newLocation);
+                Object.assign(gpsData, {deviceId: deviceId});
+                console.log('alert');
+                emitToUser(io, userId, deviceId, 'alert', gpsData);
                 return device.save();
             }
         })

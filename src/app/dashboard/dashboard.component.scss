@@ -18,7 +18,7 @@ aside {
     height: calc(100vh - #{$aside-top-padding});
     padding-top: $aside-top-padding;
     position: relative;
-    width: 200px;
+    width: 250px;
 
     a {
         background-color: $color-main-blue;
@@ -70,4 +70,10 @@ aside {
 .logout-button {
     @extend .my-button;    
     width: 100%;
+}
+
+.wrapper {
+    width: 100%;
+    position: relative;
+    float: left;
 }

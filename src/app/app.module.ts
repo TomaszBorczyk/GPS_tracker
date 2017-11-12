@@ -12,16 +12,18 @@ import { DirectionsMapDirective } from './dashboard/map/map-direction.directive'
 import { MapComponent } from './dashboard/map/map.component';
 import { OptionsComponent } from './dashboard/options/options.component';
 
+import { AlertService } from './services/alert.service';
 import { AuthService } from './services/auth.service';
 import { DeviceService } from './services/device.service';
 import { SocketService } from './services/socket.service';
 import { UserService } from './services/user.service';
 
-import { AlertService } from './welcome/alertService/alert.service';
+import { LoginAlertService } from './welcome/alertService/alert.service';
 import { LoginComponent } from './welcome/login/login.component';
 import { RegisterComponent } from './welcome/register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
+import { AlertComponent } from './dashboard/alert/alert.component';
 import { DeviceListComponent } from './dashboard/devices/device-list/device-list.component';
 import { RegisterDeviceComponent } from './dashboard/devices/register-device/register-device.component';
 
@@ -38,7 +40,8 @@ import { RegisterDeviceComponent } from './dashboard/devices/register-device/reg
     WelcomeComponent,
     DirectionsMapDirective,
     RegisterDeviceComponent,
-    DeviceListComponent
+    DeviceListComponent,
+    AlertComponent
   ],
   imports: [
     AppRoutingModule,
@@ -52,6 +55,7 @@ import { RegisterDeviceComponent } from './dashboard/devices/register-device/reg
   ],
   providers: [
     AlertService,
+    LoginAlertService,
     AuthService,
     DeviceService,
     SocketService,

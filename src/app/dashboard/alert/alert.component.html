@@ -1,0 +1,10 @@
+<div *ngIf="visible" class="alert-body">
+    <div class="alert-content">
+        <i class="material-icons">warning</i>
+        There is suspicious activity on {{deviceId}}!
+        <!-- &nbsp;<a href="{{link}}">Go to map view</a> -->
+        &nbsp;<div class="link" (click)="routeToMap()">Go to map view</div>
+        <i class="material-icons close" (click)="closeAlert()">close</i>
+    </div>
+</div>
+

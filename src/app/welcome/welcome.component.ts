@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { default as consts } from '../../config/consts';
-import { AlertInfo, AlertService } from './alertService/alert.service';
+import { AlertInfo, LoginAlertService } from './alertService/alert.service';
 import { AlertType } from './AlertType/AlertType';
 
 interface Triangle {
@@ -25,7 +25,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   public triangles: Array<Triangle>;
 
-  constructor(private my_alerService: AlertService) {
+  constructor(private my_alerService: LoginAlertService) {
     this.alertType = AlertType.NONE;
     this.triangles = this.generateTriangleData();
   }

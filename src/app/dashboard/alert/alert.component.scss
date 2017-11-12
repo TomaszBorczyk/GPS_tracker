@@ -1,0 +1,46 @@
+@import '../../../consts/colors';
+
+.alert-body {
+    background: #ff4b33;
+    // background: $color-warning-orange;
+    position: absolute;
+    width: 100%;
+    height: 25px;
+    z-index: 999;
+    left: 0;
+}
+
+.alert-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    font-size: .8em;
+    position: relative;
+    height: 100%;
+}
+
+i {
+    font-size: 1.5em;
+}
+
+.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-right: 5px;
+    padding-top: 3px;
+    
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.link {
+    text-decoration: underline;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
