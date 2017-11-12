@@ -4,6 +4,12 @@ import { default as consts } from '../../config/consts';
 import { AlertInfo, AlertService } from './alertService/alert.service';
 import { AlertType } from './AlertType/AlertType';
 
+interface Triangle {
+  x: number;
+  y: number;
+  size: string;
+  height: string;
+}
 
 @Component({
   selector: 'app-welcome',
@@ -16,8 +22,11 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   public alertType: AlertType;
   public icon: string;
 
+  public triangles: Array<Triangle>;
+
   constructor(private my_alerService: AlertService) {
     this.alertType = AlertType.NONE;
+    this.triangles = this.generateTriangleData();
   }
 
   ngOnInit() {
@@ -37,5 +46,24 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     this.alertType = type;
     this.alertMessage = type === AlertType.SUCCESS ? consts.alertBar[type] : message;
     this.icon = type === AlertType.SUCCESS ? 'done' : 'warning';
+  }
+
+  private generateTriangleData(): Array<Triangle> {
+    const amount = 10;
+    const triangleData: Array<Triangle> = [];
+
+    for (let i = 0; i < amount; i += 1) {
+      const size = Math.floor(Math.random() * 40) + 20;
+      const triangle: Triangle = {
+        x: Math.floor(Math.random() * 100),
+        y: Math.floor(Math.random() * 100),
+        size: size + 'px',
+        height: 1.73205 * size + 'px'
+      };
+      triangleData.push(triangle);
+    }
+    console.log(triangleData);
+    return triangleData;
+
   }
 }

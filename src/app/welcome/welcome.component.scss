@@ -1,3 +1,10 @@
+@import './background';
+
+.router-wrapper{
+    z-index: 999;
+    position: relative;
+}
+
 .alert-bar {
     color: white;
     height: 30px;
@@ -25,8 +32,4 @@
 
 i {
     margin-right: 10px;
-}
-
-.router-wrapper {
-    margin-top: 200px;
 }

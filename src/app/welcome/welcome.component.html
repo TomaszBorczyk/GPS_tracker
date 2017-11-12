@@ -3,7 +3,17 @@
     {{alertMessage}}
 </div>
 
-<div class="router-wrapper">
-    <router-outlet>
-    </router-outlet>
+<div class="welcome-background">
+    <div class="triangle"></div>
+    <div class="triangle" *ngFor="let triangle of triangles"
+    [style.left.%]="triangle.x" [style.top.%]="triangle.y"
+    [style.borderTopWidth]="0"
+    [style.borderRightWidth]="triangle.size"
+    [style.borderBottomWidth]="triangle.height"
+    [style.borderLeftWidth]="triangle.size"
+    ></div>
+    <div class="router-wrapper">
+        <router-outlet>
+        </router-outlet>
+    </div>
 </div>

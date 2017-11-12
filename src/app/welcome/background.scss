@@ -1,0 +1,24 @@
+@mixin triangle($color, $size) {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 $size 1.732*$size $size;
+    border-color: transparent transparent $color transparent;
+}
+
+.welcome-background{
+    position: relative;
+    height: 100vh;
+    padding-top: 200px;
+    box-sizing: border-box;
+
+    background: linear-gradient(to bottom right, #0ebece, #013a96);
+    // background: red;
+}
+
+.triangle {
+    @include triangle(rgba(139, 177, 237, 0.5), 25px);
+    position: absolute;
+    left: 70%;
+    z-index: 100;
+}
