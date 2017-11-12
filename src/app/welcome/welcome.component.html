@@ -4,16 +4,31 @@
 </div>
 
 <div class="welcome-background">
-    <div class="triangle"></div>
     <div class="triangle" *ngFor="let triangle of triangles"
-    [style.left.%]="triangle.x" [style.top.%]="triangle.y"
+    [style.left.%]="triangle.left" [style.bottom.%]="triangle.bottom"
     [style.borderTopWidth]="0"
     [style.borderRightWidth]="triangle.size"
     [style.borderBottomWidth]="triangle.height"
     [style.borderLeftWidth]="triangle.size"
+    [style.opacity]="triangle.opacity"
     ></div>
     <div class="router-wrapper">
         <router-outlet>
         </router-outlet>
     </div>
 </div>
+
+<!-- <div class="welcome-background">
+    <div class="triangle"></div>
+    <div class="triangle" *ngFor="let triangle of triangles"
+    [style.left.%]="triangle.x" [style.top.%]="triangle.y"
+    [style.borderTopWidth]="triangle.height"
+    [style.borderRightWidth]="triangle.size"
+    [style.borderBottomWidth]="borderBottom"
+    [style.borderLeftWidth]="triangle.size"
+    >aaa</div>
+    <div class="router-wrapper">
+        <router-outlet>
+        </router-outlet>
+    </div>
+</div> -->

@@ -2,8 +2,60 @@
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 $size 1.732*$size $size;
+    // border-width: 0 $size 1.732*$size $size;
     border-color: transparent transparent $color transparent;
+    // border-color: $color transparent transparent transparent;
+}
+
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+@-moz-keyframes spin-flip {
+    0% { -moz-transform: rotate(180deg); }
+    50% { -moz-transform: rotate(360deg); }
+    100% { -moz-transform: rotate(180deg); }
+}
+
+@-webkit-keyframes spin-flip {
+    0% { -webkit-transform: rotate(180deg); }
+    50% { -webkit-transform: rotate(360deg); }
+    100% { -webkit-transform: rotate(180deg); }
+}
+
+@keyframes spin-flip {
+    0% {transform:rotate(180deg);}
+    50% {transform:rotate(360deg);}
+    100% {transform:rotate(180deg);}
+}
+
+@-moz-keyframes spin-flip-2 {
+    0% { -moz-transform: rotate(90deg); }
+    50% { -moz-transform: rotate(360deg); }
+    90% { -moz-transform: rotate(90deg); }
+}
+
+@-webkit-keyframes spin-flip-2 {
+    0% { -webkit-transform: rotate(90deg); }
+    50% { -webkit-transform: rotate(360deg); }
+    90% { -webkit-transform: rotate(90deg); }
+}
+
+@keyframes spin-flip-2 {
+    0% {transform:rotate(90deg);}
+    50% {transform:rotate(360deg);}
+    90% {transform:rotate(90deg);}
 }
 
 .welcome-background{
@@ -11,9 +63,7 @@
     height: 100vh;
     padding-top: 200px;
     box-sizing: border-box;
-
     background: linear-gradient(to bottom right, #0ebece, #013a96);
-    // background: red;
 }
 
 .triangle {
@@ -21,4 +71,20 @@
     position: absolute;
     left: 70%;
     z-index: 100;
+    animation: spin-flip-2 90s linear 0s infinite;
+    &:nth-child(5n) {
+        animation: spin 60s linear 0.4s infinite;
+    }
+
+    &:nth-child(3n+1) {
+        animation: spin-flip-2 80s linear 0.2s infinite ease-in-out;
+    }
+
+    &:nth-child(2n) {
+        animation: spin-flip 100s linear 0s infinite;
+    }
+
+    &:nth-child(7n) {
+        animation: spin-flip 50s linear 0s infinite;
+    }
 }

@@ -5,10 +5,11 @@ import { AlertInfo, AlertService } from './alertService/alert.service';
 import { AlertType } from './AlertType/AlertType';
 
 interface Triangle {
-  x: number;
-  y: number;
+  bottom: number;
+  left: number;
   size: string;
   height: string;
+  opacity: number;
 }
 
 @Component({
@@ -49,21 +50,22 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   }
 
   private generateTriangleData(): Array<Triangle> {
-    const amount = 10;
     const triangleData: Array<Triangle> = [];
+    const amount = 30;
+    const minSize = 10;
+    const maxSize = 100;
 
     for (let i = 0; i < amount; i += 1) {
-      const size = Math.floor(Math.random() * 40) + 20;
+      const size = Math.floor(Math.random() * (maxSize - minSize)) + minSize;
       const triangle: Triangle = {
-        x: Math.floor(Math.random() * 100),
-        y: Math.floor(Math.random() * 100),
+        left: Math.floor(Math.random() * 70) + 15,
+        bottom: Math.floor(Math.random() * 70) + 10,
         size: size + 'px',
-        height: 1.73205 * size + 'px'
+        height: 1.73205 * size + 'px',
+        opacity: 1 - (size / maxSize)
       };
       triangleData.push(triangle);
     }
-    console.log(triangleData);
     return triangleData;
-
   }
 }
