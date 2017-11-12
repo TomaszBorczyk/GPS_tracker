@@ -51,15 +51,15 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   private generateTriangleData(): Array<Triangle> {
     const triangleData: Array<Triangle> = [];
-    const amount = 30;
+    const amount = 100;
     const minSize = 10;
     const maxSize = 100;
 
     for (let i = 0; i < amount; i += 1) {
       const size = Math.floor(Math.random() * (maxSize - minSize)) + minSize;
       const triangle: Triangle = {
-        left: Math.floor(Math.random() * 70) + 15,
-        bottom: Math.floor(Math.random() * 70) + 10,
+        left: Math.floor(Math.random() * 106) - 3,
+        bottom: Math.floor(Math.random() * 106) - 3,
         size: size + 'px',
         height: 1.73205 * size + 'px',
         opacity: 1 - (size / maxSize)
