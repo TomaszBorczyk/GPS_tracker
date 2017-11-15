@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { UserService } from '../../services/user.service';
+import { SocketService } from '../../services/socket.service';
 
 import { Coord } from '../../models/coords.model';
 import { Device } from '../../models/device.model';
@@ -24,7 +25,7 @@ export class MapComponent implements OnInit {
   public centerLocation: Coord;
   public origin: Coord;
   public destination: Coord;
-  public gpsActivities: Array<GPSActivity>;
+  // public gpsActivities: Array<GPSActivity>;
   public devices: Array<Device>;
   public positions: Array<Coord>;
 
@@ -35,43 +36,48 @@ export class MapComponent implements OnInit {
 
   constructor(
     private my_userService: UserService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private my_socketService: SocketService
   ) {
     this.routeFlag = false;
     this.selectedActivity = null;
     this.routeDevice = '';
+
   }
 
   ngOnInit() {
-    // this.setMap();
     this.activatedRoute.queryParams.subscribe( params => {
-      console.log('hello');
       this.routeDevice = params['device'] || '';
       this.setDevices();
       this.setMap();
     });
 
-    
-
+    this.my_socketService.locationChange.subscribe( message => {
+      const {deviceId, coords, wakeupTime} = message;
+      this.devices
+        .find(device => device.deviceId === deviceId)
+        .gpsData
+        .find(activity => activity.wakeupTime === wakeupTime)
+        .coords
+        .push(coords[0]);
+        this.triggerMapResize();
+    });
   }
 
   private setDevices(): void {
     this.devices = this.my_userService.getDevices();
-    // this.selectedDevice = this.devices === [] ? null : this.devices[0];
     if (this.devices === []) {
       return;
     }
     const device: Device =  this.devices.find( _device => _device.deviceId === this.routeDevice);
     if (device !== undefined) {
       this.selectedDevice = device;
+      if ( device.gpsData.length !== 0) {
+        this.setLatestActivity(device.gpsData);
+      }
     } else {
       this.selectedDevice = this.devices[0];
     }
-
-    // this.selectedDevice = this.devices === [] ?
-    //                       null : this.routeDevice === '' ?
-    //                       this.devices[0] : this.devices.find( device => device.deviceId === this.routeDevice) === undefined ?
-    //                       this.devices[0] : 
   }
 
   public selectDevice(device: Device): void {
@@ -81,9 +87,10 @@ export class MapComponent implements OnInit {
 
   public selectActivity(activity: GPSActivity): void {
     this.selectedActivity = activity;
+    console.log(this.selectedActivity);
     this.clearRoute();
     this.setMapCenter(activity.coords[0]);
-    this.agmMap.triggerResize(true).then( () => console.log('resize triggered'));
+    this.triggerMapResize();
   }
 
   public createRoute(): void {
@@ -102,11 +109,22 @@ export class MapComponent implements OnInit {
   }
 
   private setMap(): void {
-    this.setMapCenter({lat: 0, lon: 0, date: new Date()});
+    if (!this.selectedActivity) {
+      this.setMapCenter({lat: 0, lon: 0, date: new Date()});
+    }
   }
 
   private setMapCenter(coord: Coord): void {
     this.centerLocation = coord;
+  }
+
+  private setLatestActivity(gpsData: Array<GPSActivity>) {
+    const lastActivity = gpsData[gpsData.length - 1];
+    this.selectActivity(lastActivity);
+  }
+  
+  private triggerMapResize() {
+    this.agmMap.triggerResize(true).then( () => console.log('resize triggered'));
   }
 
 

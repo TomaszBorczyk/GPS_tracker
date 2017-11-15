@@ -38,7 +38,11 @@ export class AlertComponent implements OnInit {
   }
 
   public routeToMap(): void {
-    this.router.navigate(['dashboard/map'], { queryParams: { device: this.deviceId}});
+    if (this.router.url.startsWith('/dashboard/map')) {
+      this.router.navigate(['dashboard/map'], { queryParams: { device: this.deviceId, id: Math.random() * 10000 }});
+    } else {
+      this.router.navigate(['dashboard/map'], { queryParams: { device: this.deviceId}});
+    }
     this.closeAlert();
   }
 }
