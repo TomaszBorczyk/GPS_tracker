@@ -3,19 +3,16 @@
     <div *ngIf="selectedActivity">
         <agm-marker *ngFor="let coord of selectedActivity.coords" [latitude]="coord.lat" [longitude]="coord.lon"></agm-marker>
     </div>
-    <app-sebm-google-map-directions *ngIf="createRouteFlag && selectedActivity" [origin]="origin" [destination]="destination"></app-sebm-google-map-directions>
+    <app-sebm-google-map-directions *ngIf="routeFlag && selectedActivity" [origin]="origin" [destination]="destination"></app-sebm-google-map-directions>
   </agm-map>
 
   <!-- <app-map-google [latitude]="centerLocation.lat" [longitude]="centerLocation.lon">
     <agm-marker *ngFor="let coord of selectedActivity.coords" [latitude]="coord.lat" [longitude]="coord.lon"></agm-marker>
-    <app-sebm-google-map-directions #cdire=mapdirection *ngIf="createRouteFlag" [origin]="origin" [destination]="destination"></app-sebm-google-map-directions>
+    <app-sebm-google-map-directions #cdire=mapdirection *ngIf="routeFlag" [origin]="origin" [destination]="destination"></app-sebm-google-map-directions>
   </app-map-google> -->
 
   <div class="map-menu">
-    <div class="button-row">
-      <button class="menu-button round-button" (click)="createRoute()" [disabled]="!selectedActivity">Create route to current position</button>
-      <button class="menu-button round-button" (click)="triggerRoute()">Turn on/off route</button>
-    </div>
+ 
   
     <div *ngIf="devices.length>0" class="device-menu">
       <div class="description">
@@ -41,6 +38,11 @@
     <p *ngIf="devices.length === 0">
       No devices linked to your account;
     </p>
+
+    <div class="button-row">
+        <button class="menu-button round-button" (click)="createRoute()" [disabled]="!selectedActivity">Create route to current position</button>
+        <button class="menu-button round-button" (click)="triggerRoute()">Turn on/off route</button>
+      </div>
 
 
 

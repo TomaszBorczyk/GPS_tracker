@@ -1,14 +1,14 @@
 import { AgmMap } from '@agm/core';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { UserService } from '../../services/user.service';
 
-import { User } from '../../models/user.model';
 import { Coord } from '../../models/coords.model';
 import { Device } from '../../models/device.model';
 import { GPSActivity } from '../../models/gps.model';
-import { default as mapMocks } from './map.mock';
-
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-map',
@@ -17,6 +17,9 @@ import { default as mapMocks } from './map.mock';
 })
 export class MapComponent implements OnInit {
   @ViewChild(AgmMap) agmMap: AgmMap;
+
+  private routeDevice: string;
+  private subscription: Subscription;
 
   public centerLocation: Coord;
   public origin: Coord;
@@ -28,23 +31,36 @@ export class MapComponent implements OnInit {
   public selectedActivity: GPSActivity;
   public selectedDevice: Device;
 
-  public createRouteFlag: boolean;
+  public routeFlag: boolean;
 
   constructor(
-    private my_userService: UserService
+    private my_userService: UserService,
+    private activatedRoute: ActivatedRoute
   ) {
-    this.createRouteFlag = false;
+    this.routeFlag = false;
     this.selectedActivity = null;
+    this.routeDevice = '';
   }
 
   ngOnInit() {
-    this.setDevices();
-    this.setMap();
+    // this.setMap();
+    this.activatedRoute.queryParams.subscribe( params => {
+      console.log('hello');
+      this.routeDevice = params['device'] || '';
+      this.setDevices();
+      this.setMap();
+    });
+
+    
+
   }
 
   private setDevices(): void {
     this.devices = this.my_userService.getDevices();
-    this.selectedDevice = this.devices === [] ? null : this.devices[0];
+    // this.selectedDevice = this.devices === [] ? null : this.devices[0];
+    this.selectedDevice = this.devices === [] ?
+                          null : this.routeDevice === '' ?
+                          this.devices[0] : this.devices.find( device => device.deviceId === this.routeDevice);
   }
 
   public selectDevice(device: Device): void {
@@ -63,15 +79,15 @@ export class MapComponent implements OnInit {
     const coords: Array<Coord> = this.selectedActivity.coords;
     this.origin = coords[0];
     this.destination = coords[coords.length - 1];
-    this.createRouteFlag = true;
+    this.routeFlag = true;
   }
 
   public triggerRoute(): void {
-    this.createRouteFlag = !this.createRouteFlag;
+    this.routeFlag = !this.routeFlag;
   }
 
   private clearRoute(): void {
-    this.createRouteFlag = false;
+    this.routeFlag = false;
   }
 
   private setMap(): void {

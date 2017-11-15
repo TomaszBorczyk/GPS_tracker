@@ -21,12 +21,12 @@ export class SocketService {
   private setSocketListen() {
     this.socket.on('alert', message => {
         console.log('alert', message);
-        this.my_alertService.newAlert('random device');
+        this.my_alertService.newAlert(message.deviceId);
     });
 
     this.socket.on('update', message => {
         console.log('update', message);
-        this.my_alertService.newAlert('random device');
+        this.my_alertService.newAlert(message.deviceId);
     });
   }
 
