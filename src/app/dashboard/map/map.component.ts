@@ -58,9 +58,20 @@ export class MapComponent implements OnInit {
   private setDevices(): void {
     this.devices = this.my_userService.getDevices();
     // this.selectedDevice = this.devices === [] ? null : this.devices[0];
-    this.selectedDevice = this.devices === [] ?
-                          null : this.routeDevice === '' ?
-                          this.devices[0] : this.devices.find( device => device.deviceId === this.routeDevice);
+    if (this.devices === []) {
+      return;
+    }
+    const device: Device =  this.devices.find( _device => _device.deviceId === this.routeDevice);
+    if (device !== undefined) {
+      this.selectedDevice = device;
+    } else {
+      this.selectedDevice = this.devices[0];
+    }
+
+    // this.selectedDevice = this.devices === [] ?
+    //                       null : this.routeDevice === '' ?
+    //                       this.devices[0] : this.devices.find( device => device.deviceId === this.routeDevice) === undefined ?
+    //                       this.devices[0] : 
   }
 
   public selectDevice(device: Device): void {
