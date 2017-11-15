@@ -4,13 +4,14 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class AlertService {
-    public deviceId = new Subject<string>();
+    public alert = new Subject<any>();
 
     constructor() {
     }
 
-    public newAlert(deviceId: string): void {
-        this.deviceId.next(deviceId);
+    public newAlert(deviceId: string, type: string): void {
+        const alertData = {deviceId: deviceId, type: type};
+        this.alert.next(alertData);
     }
 
 }

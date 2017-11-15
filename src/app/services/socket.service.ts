@@ -26,14 +26,14 @@ export class SocketService {
     this.socket.on('alert', message => {
         console.log('alert', message);
         this.my_userService.addDeviceActivity(message);
-        this.my_alertService.newAlert(message.deviceId);
+        this.my_alertService.newAlert(message.deviceId, 'alert');
     });
 
     this.socket.on('update', message => {
         console.log('update', message);
         this.my_userService.updateDeviceLocation(message);
         this.locationChange.next(message);
-        this.my_alertService.newAlert(message.deviceId);
+        this.my_alertService.newAlert(message.deviceId, 'update');
     });
   }
 

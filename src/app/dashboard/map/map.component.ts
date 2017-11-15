@@ -94,6 +94,7 @@ export class MapComponent implements OnInit {
   }
 
   public createRoute(): void {
+    this.clearRoute();
     const coords: Array<Coord> = this.selectedActivity.coords;
     this.origin = coords[0];
     this.destination = coords[coords.length - 1];

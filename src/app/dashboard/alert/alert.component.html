@@ -1,7 +1,12 @@
-<div *ngIf="visible" class="alert-body">
+<div *ngIf="visible" class="alert-body" [ngClass]="{'alert-yellow': type==='update'}">
     <div class="alert-content">
         <i class="material-icons">warning</i>
-        There is suspicious activity on {{deviceId}}!
+        <div *ngIf="type === 'alert'">
+            There is suspicious activity on {{deviceId}}!
+        </div>
+        <div *ngIf="type === 'update'">
+            There is new location on {{deviceId}}!
+        </div>
         <!-- &nbsp;<a href="{{link}}">Go to map view</a> -->
         &nbsp;<div class="link" (click)="routeToMap()">Go to map view</div>
         <i class="material-icons close" (click)="closeAlert()">close</i>

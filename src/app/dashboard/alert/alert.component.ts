@@ -10,27 +10,30 @@ import { AlertService } from '../../services/alert.service';
 })
 export class AlertComponent implements OnInit {
   public visible: boolean;
-  public link: string;
   public deviceId: string;
+  public type: string;
 
   constructor(
     private router: Router,
     private my_alertService: AlertService
   ) {
     this.visible = false;
-    this.link = '/dashboard/devices';
   }
 
   ngOnInit() {
-    this.my_alertService.deviceId.subscribe( deviceId => {
-      this.deviceId = deviceId;
-      this.visible = true;
+    this.my_alertService.alert.subscribe( alertData => {
+      this.showAlert(alertData.deviceId, alertData.type);
     });
   }
 
-  public showAlert(deviceId: string) {
+  private showAlert(deviceId: string, type: string) {
     this.visible = true;
     this.deviceId = deviceId;
+    this.type = type;
+
+    if(type === 'update') {
+      setTimeout( () => this.visible = false, 4000);
+    }
   }
 
   public closeAlert(): void {
