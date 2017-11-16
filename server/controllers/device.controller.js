@@ -44,7 +44,7 @@ module.exports = {
                     const data = device.gpsData[i];
                     if(data.wakeupTime === wakeupTime){
                         data.coords.push(newLocation);
-                        const gpsData = { deviceId: deviceId, wakeupTime: wakeupTime, coords: [newLocation]};
+                        const gpsData = { deviceId: deviceId, name: device.name, wakeupTime: wakeupTime, coords: [newLocation]};
                         emitToUser(io, userId, deviceId, 'update', gpsData);
                         console.log('update');
                         return device.save();
@@ -52,8 +52,9 @@ module.exports = {
                 }
                 const gpsData = { wakeupTime: wakeupTime, coords: [newLocation]};
                 device.gpsData.push(gpsData);
-                Object.assign(gpsData, {deviceId: deviceId});
+                Object.assign(gpsData, {deviceId: deviceId, name: device.name});
                 console.log('alert');
+                console.log(gpsData);
                 emitToUser(io, userId, deviceId, 'alert', gpsData);
                 return device.save();
             }
