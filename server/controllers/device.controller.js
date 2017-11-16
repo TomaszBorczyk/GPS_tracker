@@ -79,7 +79,7 @@ module.exports = {
                     }
                 })
 
-                const newDevice = new Device({deviceId: deviceId, owner: user});
+                const newDevice = new Device({deviceId: deviceId, name: deviceId, owner: user});
                 foundUser = user;
                 foundUser.devices.push(newDevice);
                 return newDevice.save();
@@ -90,11 +90,7 @@ module.exports = {
                 return foundUser.save();
             }
         })
-        .then( () => {
-            // const io = req.app.get('io');
-            // io.broadcast.emit('hey', 'I met you');
-            res.send({success: true});
-        })
+        .then( () =>res.send({success: true}))
         .catch( err => res.send({err: err}));
     }
 }
