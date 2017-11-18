@@ -6,53 +6,50 @@
     width: 100%;
 }
 
+.map-submenu {
+    width: 250px;
+    background-color: #fff;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
 agm-map {
     width: inherit;
     height: 100%;
-    flex: 0 1 60%;
 }
 
-.map-menu {
-    padding: 30px;
-    width: inherit;
-    flex: 1 0 auto;
-    box-sizing: border-box;
+select {
+    width: 300px;
+}
+
+.my-select {
+    margin-top: 10px;
 }
 
 .wrapper {
     height: 100%;
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .menu-button {
     margin-top: 10px;
 }
 
-.data-select{
-    width: 20em;
-}
-
-.device-select{
-    margin-right: 10px;
-}
-
 .device-menu {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     margin-top: 20px;
 }
 
 .description {
-    margin-right: 20px;
 }
 
-.button-row {
+.button-column {
     display: flex;
-    flex-direction: row;
-    button:nth-child(1){
-        margin-right: 10px;
-    }
+    flex-direction: column;
+    margin-top: 10px;
 }

@@ -78,6 +78,7 @@ export class MapComponent implements OnInit {
     } else {
       this.selectedDevice = this.devices[0];
     }
+    this.selectActivity(this.selectedDevice.gpsData[this.selectedDevice.gpsData.length - 1]);
   }
 
   public selectDevice(device: Device): void {
@@ -86,6 +87,9 @@ export class MapComponent implements OnInit {
   }
 
   public selectActivity(activity: GPSActivity): void {
+    if (activity == null) {
+      return;
+    }
     this.selectedActivity = activity;
     console.log(this.selectedActivity);
     this.clearRoute();
@@ -123,12 +127,14 @@ export class MapComponent implements OnInit {
     const lastActivity = gpsData[gpsData.length - 1];
     this.selectActivity(lastActivity);
   }
-  
+
   private triggerMapResize() {
     this.agmMap.triggerResize(true).then( () => console.log('resize triggered'));
   }
 
-
+  public formatDate(date: string): string {
+    return new Date(date).toUTCString();
+  }
 
 
 }
