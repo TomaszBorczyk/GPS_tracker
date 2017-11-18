@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+
 import { environment } from '../../environments/environment';
 import { Device } from '../models/device.model';
 import { User } from '../models/user.model';
+import { UserService } from './user.service';
 
 @Injectable()
 export class DeviceService {
@@ -12,20 +14,22 @@ export class DeviceService {
 
   constructor(
     private http: Http,
+    private my_userService: UserService
   ) {
     this.apiServer = environment.apiUrl;
   }
 
   public registerDevice( device: Device) {
-      const body = { device: device };
+      const body = device;
       return this.postHTTP('/device/register', body)
         .then((res: Response) => {
           const data = res.json();
           console.log(data);
           if (data.success) {
+              this.my_userService.addRegisteredDevice(data.device);
               return data.device;
           } else {
-              throw(data.err.message);
+              throw new Error(data.err.message);
           }
       });
   }

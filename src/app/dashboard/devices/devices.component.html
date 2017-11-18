@@ -1,4 +1,38 @@
 <div class="wrapper">
-    <app-register-device (emitEvent)="emitEvent($event)" ></app-register-device>
-    <app-device-list [message]="message"></app-device-list>
+    <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <label class="title">
+            <i class="material-icons">add_circle_outline</i>  
+            Register new device
+        </label>
+        <div class="form-group">
+            <label for="imei" [class.invalid]="formErrors.imei">
+                <input id="imei" type="text" placeholder="IMEI" size="20" formControlName="imei">
+                <span class=""> {{ formErrors.imei }} </span>
+            </label>
+        </div>
+        <button class="btn btn-primary" [disabled]="!registerForm.valid" type="submit">Register</button>    
+    
+    </form>
+
+    {{message}}
+    <table>
+    <thead>
+        <tr>
+        <th>IMEI</th>
+        <th>Name</th>
+        <th>Date registered</th>
+        <th>Last activity</th>
+        <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let device of devices">
+        <td>{{device.deviceId}}</td>
+        <td>Very cool device name</td>
+        <td>2017/05/24 22:31</td>
+        <td>2017/11/10 19:26</td>
+        <td><i class="material-icons">create</i></td>
+        </tr>
+    </tbody>
+    </table>
 </div>

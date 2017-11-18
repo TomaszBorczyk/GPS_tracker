@@ -64,9 +64,11 @@ module.exports = {
     },
 
     registerDevice: function(req, res){
+        console.log(req.body);
         const deviceId = req.body.deviceId;
-        const userId = req.body.userId;
+        const userId = req.user._id;
         let foundUser;
+        let _device;
 
         User.findById(userId)
         .populate('devices')
@@ -81,17 +83,23 @@ module.exports = {
                 })
 
                 const newDevice = new Device({deviceId: deviceId, name: deviceId, owner: user});
+                _device = newDevice;
+                console.log(_device);
                 foundUser = user;
                 foundUser.devices.push(newDevice);
                 return newDevice.save();
             }
         })
-        .then( device => {
-            if (device) {
-                return foundUser.save();
-            }
+        .then( () => foundUser.save())
+        .then( () => {
+            const device = {
+                deviceId: _device.deviceId,
+                name: _device.name,
+                gpsData: _device.gpsData,
+                date_created: _device.date_created
+            };
+            res.send({success: true, device: device})
         })
-        .then( () =>res.send({success: true}))
         .catch( err => res.send({err: err}));
     }
 }

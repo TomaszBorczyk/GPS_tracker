@@ -24,8 +24,6 @@ import { RegisterComponent } from './welcome/register/register.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 import { AlertComponent } from './dashboard/alert/alert.component';
-import { DeviceListComponent } from './dashboard/devices/device-list/device-list.component';
-import { RegisterDeviceComponent } from './dashboard/devices/register-device/register-device.component';
 
 
 @NgModule({
@@ -39,8 +37,6 @@ import { RegisterDeviceComponent } from './dashboard/devices/register-device/reg
     OptionsComponent,
     WelcomeComponent,
     DirectionsMapDirective,
-    RegisterDeviceComponent,
-    DeviceListComponent,
     AlertComponent
   ],
   imports: [

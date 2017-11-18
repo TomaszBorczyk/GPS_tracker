@@ -53,6 +53,12 @@ export class UserService {
     this.setUser(user);
   }
 
+  public addRegisteredDevice(device: Device): void {
+    const user: User = this.getUserLocalStorage();
+    user.devices.push(device);
+    this.setUser(user);
+  }
+
   public updateDeviceLocation(message): void {
     const { deviceId, coords, wakeupTime } = message;
     const newLocation: Coord = coords;
