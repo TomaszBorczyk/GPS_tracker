@@ -34,7 +34,20 @@ export class DeviceService {
       });
   }
 
-
+  public changeName( deviceId: string, name: string): Promise<Device> {
+    const body = { deviceId: deviceId, name: name};
+    return this.postHTTP('/device/changename', body)
+    .then((res: Response) => {
+      const data = res.json();
+      console.log(data);
+      if (data.success) {
+          this.my_userService.changeDeviceName(deviceId, name);
+          return data.device;
+      } else {
+          throw new Error(data.err.message);
+      }
+    });
+  }
 
   private postHTTP(route: string, body: Object): Promise<any> {
     return this

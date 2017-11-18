@@ -101,6 +101,15 @@ module.exports = {
             res.send({success: true, device: device})
         })
         .catch( err => res.send({err: err}));
+    },
+
+    changeName: function(req, res) {
+        console.log('name change', req.body);
+        const body = req.body;
+        Device
+        .findOneAndUpdate({deviceId: body.deviceId}, {$set: {"name": body.name}})
+        .then( device => res.send({success: true, device: device}))
+        .catch( err => res.send({success: false, err: err}))
     }
 }
 

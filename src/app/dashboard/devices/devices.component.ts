@@ -25,25 +25,21 @@ export class DevicesComponent implements OnInit {
       'imei': ' This is not a correct IMEI number'
     },
   };
+  public edited: number;
+  public newName: string;
 
   constructor(
     private my_userService: UserService,
     private fb: FormBuilder,
-    private my_AuthService: AuthService,
-    private my_DeviceService: DeviceService
+    private my_authService: AuthService,
+    private my_deviceService: DeviceService
   ) {
-    // this.devices = devicesMock;
     this.message = '';
     this.devices = this.my_userService.getDevices();
   }
 
   ngOnInit() {
     this.buildForm();
-  }
-
-  emitEvent(message: string) {
-    console.log(message);
-    this.message = message;
   }
 
   buildForm(): void {
@@ -63,11 +59,28 @@ export class DevicesComponent implements OnInit {
     if (this.registerForm.valid) {
       console.log('submit');
       const newDevice: Device = { deviceId: this.registerForm.get('imei').value };
-      this.my_DeviceService
+      this.my_deviceService
       .registerDevice(newDevice)
       .then( (device: Device) => {console.log(device); this.devices.push(device);})
       .catch( (err: Error) => console.log(err));
     }
+  }
+
+  editName(i: number, device: Device): void {
+    this.edited = i;
+    this.newName = device.name;
+  }
+
+  cancelEdit(): void {
+    this.edited = null;
+  }
+
+  confirmEdit(i: number, device: Device): void {
+    console.log(this.newName);
+    this.my_deviceService.changeName(device.deviceId, this.newName).then( _device => {
+      this.devices[i].name = this.newName;
+      this.edited = null;
+    });
   }
 
   isIMEI(control: AbstractControl) {

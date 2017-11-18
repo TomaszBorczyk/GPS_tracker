@@ -59,6 +59,13 @@ export class UserService {
     this.setUser(user);
   }
 
+  public changeDeviceName(deviceId: string, name: string): void {
+    const user: User = this.getUserLocalStorage();
+    user.devices.find(_device => _device.deviceId === deviceId).name = name;
+    console.log(user);
+    this.setUser(user);
+  }
+
   public updateDeviceLocation(message): void {
     const { deviceId, coords, wakeupTime } = message;
     const newLocation: Coord = coords;
@@ -71,4 +78,6 @@ export class UserService {
 
     this.setUser(user);
   }
+
+
 }

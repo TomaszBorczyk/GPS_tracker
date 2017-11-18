@@ -88,3 +88,43 @@ td {
 .wrapper {
     padding: 30px;
 }
+
+.edit {
+    display: flex;
+    flex-direction: row;
+
+    i {
+        vertical-align: middle;
+        &:hover {
+            transition: color .1s;
+            cursor: pointer;
+        }
+    }
+}
+
+.edit-icon {
+    &:hover {
+        color: $color-detail-blue;
+    }
+}
+
+.cancel-icon {
+    &:hover {
+        color: $color-warning-orange;
+    }
+}
+
+.confirm-icon {
+    &:hover {
+        color: $color-warning-green;
+    }
+}
+
+.edit-button-box {
+    margin-left: 15px;
+}
+
+.name {
+    vertical-align: middle;
+    line-height: 2;
+}

@@ -22,16 +22,30 @@
         <th>Name</th>
         <th>Date registered</th>
         <th>Last activity</th>
-        <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let device of devices">
+        <tr *ngFor="let device of devices; let i = index">
         <td>{{device.deviceId}}</td>
-        <td>Very cool device name</td>
+        <td>
+            <div class="edit" *ngIf="edited !== i">
+                <div class="name">
+                    {{device.name}}
+                </div>
+                <div class="edit-button-box">
+                    <i class="material-icons edit-icon" (click)="editName(i, device)">create</i> 
+                </div>
+            </div>
+            <div class="edit" *ngIf="edited === i">
+                <input type="text" [(ngModel)]="newName">
+                <div class="edit-button-box">
+                    <i class="material-icons confirm-icon" (click)="confirmEdit(i, device)" >done</i>
+                    <i class="material-icons cancel-icon" (click)="cancelEdit()">clear</i>
+                </div>
+            </div>
+        </td>
         <td>2017/05/24 22:31</td>
         <td>2017/11/10 19:26</td>
-        <td><i class="material-icons">create</i></td>
         </tr>
     </tbody>
     </table>
