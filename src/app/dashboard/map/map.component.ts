@@ -3,8 +3,8 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { UserService } from '../../services/user.service';
 import { SocketService } from '../../services/socket.service';
+import { UserService } from '../../services/user.service';
 
 import { Coord } from '../../models/coords.model';
 import { Device } from '../../models/device.model';
