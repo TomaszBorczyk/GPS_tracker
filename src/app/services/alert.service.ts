@@ -9,8 +9,8 @@ export class AlertService {
     constructor() {
     }
 
-    public newAlert(deviceId: string, type: string): void {
-        const alertData = {deviceId: deviceId, type: type};
+    public newAlert(deviceId: string, name: string, type: string): void {
+        const alertData = {deviceId: deviceId, name: name, type: type};
         this.alert.next(alertData);
     }
 

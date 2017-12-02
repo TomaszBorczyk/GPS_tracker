@@ -23,7 +23,8 @@ module.exports = {
     updateLocation: function(req, res){
         const body = req.body;
         const deviceId = body.deviceId;
-        const wakeupTime = body.wakeupTime;
+        // const wakeupTime = body.wakeupTime;
+        const type = body.type;
         const newLocation = {
             lat: body.lat,
             lon: body.lon,
@@ -39,24 +40,44 @@ module.exports = {
             } else {
                 const io = req.app.get('io');
                 const userId = device.owner._id;
+                const date = (new Date()).toISOString();
+                
+                // for(let i = 0; i < device.gpsData.length; i+=1) {
+                //     const data = device.gpsData[i];
+                //     if(data.wakeupTime === wakeupTime){
+                //         data.coords.push(newLocation);
+                //         const gpsData = { deviceId: deviceId, name: device.name, wakeupTime: wakeupTime, coords: [newLocation]};
+                //         emitToUser(io, userId, deviceId, 'update', gpsData);
+                //         console.log('update');
+                //         return device.save();
+                //     }
+                // }
 
-                for(let i = 0; i < device.gpsData.length; i+=1) {
-                    const data = device.gpsData[i];
-                    if(data.wakeupTime === wakeupTime){
-                        data.coords.push(newLocation);
-                        const gpsData = { deviceId: deviceId, name: device.name, wakeupTime: wakeupTime, coords: [newLocation]};
-                        emitToUser(io, userId, deviceId, 'update', gpsData);
-                        console.log('update');
-                        return device.save();
-                    }
+                if(type === 'alert') {
+                    const gpsData = { wakeupTime: date, coords: [newLocation]};
+                    device.gpsData.push(gpsData);
+                    Object.assign(gpsData, {deviceId: deviceId, name: device.name});
+                    console.log('alert');
+                    console.log(gpsData);
+                    emitToUser(io, userId, deviceId, 'alert', gpsData);
+                    return device.save();
                 }
-                const gpsData = { wakeupTime: wakeupTime, coords: [newLocation]};
-                device.gpsData.push(gpsData);
-                Object.assign(gpsData, {deviceId: deviceId, name: device.name});
-                console.log('alert');
-                console.log(gpsData);
-                emitToUser(io, userId, deviceId, 'alert', gpsData);
-                return device.save();
+                else if(type === 'update') {
+                    const length = device.gpsData.length;
+                    device.gpsData[length-1].coords.push(newLocation);
+                    const gpsData = { deviceId: deviceId, name: device.name, wakeupTime: date, coords: [newLocation]};
+                    emitToUser(io, userId, deviceId, 'update', gpsData);
+                    console.log('update');
+                    return device.save();
+                }
+
+                // const gpsData = { wakeupTime: wakeupTime, coords: [newLocation]};
+                // device.gpsData.push(gpsData);
+                // Object.assign(gpsData, {deviceId: deviceId, name: device.name});
+                // console.log('alert');
+                // console.log(gpsData);
+                // emitToUser(io, userId, deviceId, 'alert', gpsData);
+                // return device.save();
             }
         })
         .then( device => res.send({device: device}))

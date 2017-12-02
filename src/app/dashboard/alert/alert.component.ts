@@ -11,6 +11,7 @@ import { AlertService } from '../../services/alert.service';
 export class AlertComponent implements OnInit {
   public visible: boolean;
   public deviceId: string;
+  public name: string;
   public type: string;
 
   constructor(
@@ -22,13 +23,14 @@ export class AlertComponent implements OnInit {
 
   ngOnInit() {
     this.my_alertService.alert.subscribe( alertData => {
-      this.showAlert(alertData.deviceId, alertData.type);
+      this.showAlert(alertData.deviceId, alertData.name, alertData.type);
     });
   }
 
-  private showAlert(deviceId: string, type: string) {
+  private showAlert(deviceId: string, name: string, type: string) {
     this.visible = true;
     this.deviceId = deviceId;
+    this.name = name;
     this.type = type;
 
     if(type === 'update') {

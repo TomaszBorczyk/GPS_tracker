@@ -2,10 +2,10 @@
     <div class="alert-content">
         <i class="material-icons">warning</i>
         <div *ngIf="type === 'alert'">
-            There is suspicious activity on {{deviceId}}!
+            There is suspicious activity on your{{name}}!
         </div>
         <div *ngIf="type === 'update'">
-            There is new location on {{deviceId}}!
+            There is new location on your {{name}}!
         </div>
         <!-- &nbsp;<a href="{{link}}">Go to map view</a> -->
         &nbsp;<div class="link" (click)="routeToMap()">Go to map view</div>

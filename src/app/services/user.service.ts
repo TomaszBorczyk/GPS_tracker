@@ -67,14 +67,19 @@ export class UserService {
   }
 
   public updateDeviceLocation(message): void {
+    console.log('message', message);
     const { deviceId, coords, wakeupTime } = message;
     const newLocation: Coord = coords;
     const user: User = this.getUserLocalStorage();
-    user.devices
+    const gpsData = user.devices
       .find( device => device.deviceId === deviceId)
-      .gpsData
-      .find( data => data.wakeupTime === wakeupTime )
-      .coords.push(newLocation);
+      .gpsData;
+
+    console.log('data', gpsData, newLocation);
+    gpsData[gpsData.length - 1].coords.push(newLocation[0]);
+      // .map( gpsData => )
+      // .find( data => data.wakeupTime === wakeupTime )
+      // .coords.push(newLocation);
 
     this.setUser(user);
   }

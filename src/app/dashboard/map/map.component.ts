@@ -42,6 +42,7 @@ export class MapComponent implements OnInit {
     this.routeFlag = false;
     this.selectedActivity = null;
     this.routeDevice = '';
+    this.setMapCenter({lat: 0, lon: 0, date: new Date()});
 
   }
 
@@ -54,19 +55,21 @@ export class MapComponent implements OnInit {
 
     this.my_socketService.locationChange.subscribe( message => {
       const {deviceId, coords, wakeupTime} = message;
-      this.devices
+      const gpsData = this.devices
         .find(device => device.deviceId === deviceId)
-        .gpsData
-        .find(activity => activity.wakeupTime === wakeupTime)
-        .coords
-        .push(coords[0]);
+        .gpsData;
+
+        gpsData[gpsData.length - 1].coords.push(coords[0]);
+        // .find(activity => activity.wakeupTime === wakeupTime)
+        // .coords
+        // .push(coords[0]);
         this.triggerMapResize();
     });
   }
 
   private setDevices(): void {
     this.devices = this.my_userService.getDevices();
-    if (this.devices === []) {
+    if (this.devices.length === 0) {
       return;
     }
     const device: Device =  this.devices.find( _device => _device.deviceId === this.routeDevice);

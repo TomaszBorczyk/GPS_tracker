@@ -6,6 +6,7 @@ import { DeviceService } from '../../services/device.service';
 import { UserService } from '../../services/user.service';
 
 import { Device } from '../../models/device.model';
+import { GPSActivity } from '../../models/gps.model';
 
 
 @Component({
@@ -112,6 +113,27 @@ export class DevicesComponent implements OnInit {
         }
       }
     }
+  }
+
+  public getDateRegistered(_device: Device): string {
+    return this.dateToString(_device.date_created);
+  }
+
+  public getLastLocationDate(_device: Device): string {
+    if (_device.gpsData.length === 0) {
+      return 'Never active';
+    }
+    const _gpsData = _device.gpsData;
+    const coords = _gpsData[_gpsData.length - 1].coords;
+    return this.dateToString(coords[coords.length - 1].date);
+  }
+
+  private dateToString(date): string {
+    const options = {
+      weekday: 'long', year: 'numeric', month: 'short',
+      day: 'numeric', hour: '2-digit', minute: '2-digit'
+    };
+    return String(new Date(date).toLocaleTimeString('en-us', options));
   }
 
 
