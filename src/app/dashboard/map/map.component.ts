@@ -64,6 +64,7 @@ export class MapComponent implements OnInit {
         // .find(activity => activity.wakeupTime === wakeupTime)
         // .coords
         // .push(coords[0]);
+        this.setMapCenter(coords[0]);
         this.triggerMapResize();
     });
   }
@@ -97,7 +98,7 @@ export class MapComponent implements OnInit {
     this.selectedActivity = activity;
     console.log(this.selectedActivity);
     this.clearRoute();
-    this.setMapCenter(activity.coords[0]);
+    this.setMapCenter(activity.coords[activity.coords.length - 1]);
     this.triggerMapResize();
   }
 
