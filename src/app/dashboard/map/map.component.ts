@@ -54,6 +54,7 @@ export class MapComponent implements OnInit {
     });
 
     this.my_socketService.locationChange.subscribe( message => {
+      this.setDevices();
       const {deviceId, coords, wakeupTime} = message;
       const gpsData = this.devices
         .find(device => device.deviceId === deviceId)
